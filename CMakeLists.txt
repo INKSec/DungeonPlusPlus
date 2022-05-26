@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(DungeonPlusPlus)
 
 set(CMAKE_CXX_STANDARD 14)
-add_executable(DungeonPlusPlus main.cpp)
+add_executable(DungeonPlusPlus main.cpp MainMenu.cpp MainMenu.h)
 include_directories(headers /usr/include D:/SFML/include)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
