@@ -1,1 +1,4 @@
 CMakeLists.txt
+/cmake_modules/
+/cmake-build-debug/
+*.cmake

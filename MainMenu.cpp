@@ -1,4 +1,6 @@
+#include <iostream>
 #include "MainMenu.h"
+
 using namespace sfm;
 
 const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50, 0.5));
@@ -110,11 +112,11 @@ void Menu::display(sf::RenderWindow &window) {
                     window.display();
                     break;
                 case sf::Event::MouseButtonReleased:
+                    std::cout << "Mouse clicked!" << std::endl;
                     for(i = 0; i < texts.size(); i++) {
                         if(texts[i].getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
                             //this option was clicked
                             options[i].select();
-                            finished = true;
                             break;
                         }
                     }
@@ -123,7 +125,7 @@ void Menu::display(sf::RenderWindow &window) {
                     break;
             }
         }//end while(window.pollEvent(e))
-        sf::sleep(sf::milliseconds(100));
+        sf::sleep(sf::milliseconds(50));
         if(timeout > sf::seconds(0.0) && clock.getElapsedTime() >= timeout) {
             //this menu has a timeout and we have reached it
             finished = true;
