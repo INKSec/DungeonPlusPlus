@@ -31,17 +31,15 @@ namespace sfm {
     class MenuLayout {
         friend class Menu;
     public:
-        MenuLayout(unsigned int spacing = 50,
-                   const sf::Vector2f &origin = sf::Vector2f(0.5, 0.5));
+        explicit MenuLayout(unsigned int spacing = 50, const sf::Vector2f &origin = sf::Vector2f(0.5, 0.5));
         MenuLayout(const MenuLayout &copy);
         void setSpacing(unsigned int spacing);
         void setOrigin(const sf::Vector2f &origin);
         static const MenuLayout VerticleCentered;
         static const MenuLayout VerticleLeft;
-        static const MenuLayout VerticleRight;
+        static const MenuLayout HUD;
     private:
-        void apply(std::vector<sf::Text> &options,
-                   sf::Vector2u windowSize);
+        void apply(std::vector<sf::Text> &options, const sf::Vector2u &windowSize) const;
         unsigned int spacing{}; //spacing between each option
         //where on the screen (percentage wise) the MenuOptions revolve
         //around
@@ -54,8 +52,7 @@ namespace sfm {
         void addOption(const MenuOption &option);
         void clearOptions();
         void setBackground(const std::string &path);
-        void setTimeout(sf::Time timeout,
-                        std::function<void(void)> callback);
+        void setTimeout(sf::Time timeout, std::function<void(void)> callback);
         void setExitCallback(std::function<void(void)> callback);
         void setLayout(const MenuLayout &_style);
         void setTemplateText(const sf::Text &t);

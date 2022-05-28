@@ -5,7 +5,7 @@ using namespace sfm;
 
 const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50, 0.5));
 const MenuLayout MenuLayout::VerticleLeft		=	MenuLayout(50, sf::Vector2f(0.25, 0.5));
-const MenuLayout MenuLayout::VerticleRight		=	MenuLayout(50, sf::Vector2f(0.75, 0.5));
+const MenuLayout MenuLayout::HUD		        =	MenuLayout(50, sf::Vector2f(0.1, 0.9));
 
 
 ////////////////////
@@ -39,9 +39,8 @@ void MenuLayout::setOrigin(const sf::Vector2f &origin) {
 }//end setOrigin
 
 
-void MenuLayout::apply(std::vector<sf::Text> &options,
-                       sf::Vector2u windowSize) {
-    if(options.size() == 0) { return; } //no options, do nothing
+void MenuLayout::apply(std::vector<sf::Text> &options, const sf::Vector2u &windowSize) const {
+    if(options.empty()) { return; } //no options, do nothing
 
     sf::Vector2f orig; //origin position in pixels, instead of percentages
     orig.x = windowSize.x * this->origin.x;
@@ -76,10 +75,10 @@ void Menu::display(sf::RenderWindow &window) {
     bg.setScale(window.getSize().x / (float)background.getSize().x,
                 window.getSize().y / (float)background.getSize().y);
     std::vector<sf::Text> texts;
-    sf::Text t = this->templateText;
+    sf::Text text = this->templateText;
     for(const auto &o : options) {
-        t.setString(o.getText());
-        texts.push_back(t);
+        text.setString(o.getText());
+        texts.push_back(text);
     }
 
     window.clear();
@@ -90,7 +89,7 @@ void Menu::display(sf::RenderWindow &window) {
     }
     window.display();
 
-    int i = 0;
+    int i;
     sf::Vector2i mousePos;
     sf::Clock clock;
     while(!finished) {
