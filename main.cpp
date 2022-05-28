@@ -17,11 +17,11 @@ int main() {
 
     //create the main menu
     sfm::Menu mainmenu;
-    sfm::MenuOption opt("Start");
+    sfm::MenuOption opt("Start", menuButton1);
     mainmenu.addOption(opt);
-    sfm::MenuOption opt2("Optionen");
+    sfm::MenuOption opt2("Optionen", menuButton2);
     mainmenu.addOption(opt2);
-    sfm::MenuOption opt3("Ende");
+    sfm::MenuOption opt3("Beenden", [&mainmenu](){mainmenu.setFinished(true);});
     mainmenu.addOption(opt3);
     mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
     mainmenu.setBackground("../images/wald.jpg");
@@ -32,7 +32,7 @@ int main() {
     mainmenu.setTemplateText(text);
 
     //now create the window and display the menus
-    window.create(sf::VideoMode(800, 600), "DungeonPluPlus!");
+    window.create(sf::VideoMode(800, 600), "DungeonPlusPlus!");
     splash.display(window);
     mainmenu.display(window);
 

@@ -57,8 +57,9 @@ namespace sfm {
         void setTimeout(sf::Time timeout,
                         std::function<void(void)> callback);
         void setExitCallback(std::function<void(void)> callback);
-        void setLayout(MenuLayout style);
+        void setLayout(const MenuLayout &_style);
         void setTemplateText(const sf::Text &t);
+        void setFinished(const bool &_finished);
     private:
         std::vector<MenuOption> options;
         sf::Texture background;
@@ -67,6 +68,7 @@ namespace sfm {
         std::function<void(void)> exitCallback;
         MenuLayout layout;
         sf::Text templateText;
+        bool finished = false;
     };//end Menu
 
 }//end namespace

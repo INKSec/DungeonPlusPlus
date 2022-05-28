@@ -90,12 +90,11 @@ void Menu::display(sf::RenderWindow &window) {
     }
     window.display();
 
-    bool finished = false;
     int i = 0;
     sf::Vector2i mousePos;
     sf::Clock clock;
     while(!finished) {
-        sf::Event e;
+        sf::Event e{};
         while(window.pollEvent(e)) {
             switch(e.type) {
                 case sf::Event::Closed:
@@ -112,7 +111,6 @@ void Menu::display(sf::RenderWindow &window) {
                     window.display();
                     break;
                 case sf::Event::MouseButtonReleased:
-                    std::cout << "Mouse clicked!" << std::endl;
                     for(i = 0; i < texts.size(); i++) {
                         if(texts[i].getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
                             //this option was clicked
@@ -161,11 +159,15 @@ void Menu::setExitCallback(std::function<void(void)> callback) {
 }//end setExitCallback
 
 
-void Menu::setLayout(MenuLayout layout) {
-    this->layout = layout;
+void Menu::setLayout(const MenuLayout &_layout) {
+    layout = _layout;
 }//end setLayout
 
 
 void Menu::setTemplateText(const sf::Text &t) {
     templateText = t;
 }//end setTemplateText
+
+void Menu::setFinished(const bool &_finished) {
+    finished = _finished;
+}
