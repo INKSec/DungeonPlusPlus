@@ -4,13 +4,14 @@
 #include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 #include "Button.h"
+#include "Room.h"
 
 namespace game {
 
     class GameScene {
     public:
         GameScene();
-        void display(sf::RenderWindow &window);
+        void display(sf::RenderWindow &window, const Room &room);
         void explorationView(sf::RenderWindow &window);
         void combatView();
         void setBackground(const std::string &path);
@@ -21,6 +22,7 @@ namespace game {
         sf::Texture background;
         sf::Texture hud;
         sf::Font font;
+        std::unique_ptr<Room> activeRoom;
         bool finished = false;
     };
 

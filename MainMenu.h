@@ -37,7 +37,6 @@ namespace sfm {
         void setOrigin(const sf::Vector2f &origin);
         static const MenuLayout VerticleCentered;
         static const MenuLayout VerticleLeft;
-        static const MenuLayout HUD;
     private:
         void apply(std::vector<sf::Text> &options, const sf::Vector2u &windowSize) const;
         unsigned int spacing{}; //spacing between each option
@@ -69,7 +68,3 @@ namespace sfm {
     };//end Menu
 
 }//end namespace
-
-
-
-

@@ -5,7 +5,6 @@ using namespace sfm;
 
 const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50, 0.5));
 const MenuLayout MenuLayout::VerticleLeft		=	MenuLayout(50, sf::Vector2f(0.25, 0.5));
-const MenuLayout MenuLayout::HUD		        =	MenuLayout(50, sf::Vector2f(0.1, 0.9));
 
 
 ////////////////////

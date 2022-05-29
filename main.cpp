@@ -6,7 +6,6 @@ using namespace std;
 
 
 void splashScreenCallback();
-void menuButton1();
 void menuButton2();
 
 int main() {
@@ -20,7 +19,8 @@ int main() {
     //create the main menu
     sfm::Menu mainmenu;
     game::GameScene testscene;
-    sfm::MenuOption opt("Start", [&mainmenu, &testscene, &window](){mainmenu.setFinished(true); testscene.setFinished(false); testscene.display(window);});
+    game::Room startingRoom{"../images/dungeon_entrance.png", "Entrance"};
+    sfm::MenuOption opt("Start", [&mainmenu, &testscene, &window, &startingRoom](){mainmenu.setFinished(true); testscene.setFinished(false); testscene.display(window, startingRoom);});
     mainmenu.addOption(opt);
     sfm::MenuOption opt2("Optionen", menuButton2);
     mainmenu.addOption(opt2);
@@ -34,8 +34,6 @@ int main() {
     text.setFont(font);
     mainmenu.setTemplateText(text);
 
-    testscene.setBackground("../images/dungeon.png");
-
     //now create the window and display the menus
     window.create(sf::VideoMode(1200, 800), "DungeonPlusPlus!");
     splash.display(window);
@@ -43,11 +41,8 @@ int main() {
 
     return 0;
 }
-void splashScreenCallback() {
-    cout << "Hat geklappt\n" << endl;
-}
 
-void menuButton1() {
+void splashScreenCallback() {
     cout << "Hat geklappt\n" << endl;
 }
 
