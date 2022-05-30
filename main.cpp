@@ -2,6 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 #include "GameScene.h"
+#include "DungeonLayout.h"
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 800
+#define ROOM_COUNT 20
+
 using namespace std;
 
 
@@ -16,15 +21,25 @@ int main() {
     splash.setTimeout(sf::seconds(2), splashScreenCallback);
     splash.setBackground("../images/Splash.png");
 
+    //create the dungeon rooms
+    game::DungeonLayout dungeonLayout;
+    game::GameScene gamescene{dungeonLayout};
+    game::DungeonLayout::roomMap dungeonMap {dungeonLayout.generateDungeon(ROOM_COUNT)};
+    for(auto pair : dungeonMap) {
+        cout << pair.first << endl;
+    }
+
     //create the main menu
+    bool finished {false};
     sfm::Menu mainmenu;
-    game::GameScene testscene;
-    game::Room startingRoom{"../images/dungeon_entrance.png", "Entrance"};
-    sfm::MenuOption opt("Start", [&mainmenu, &testscene, &window, &startingRoom](){mainmenu.setFinished(true); testscene.setFinished(false); testscene.display(window, startingRoom);});
+    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &window, &dungeonLayout](){
+        mainmenu.setFinished(true);
+        gamescene.display(window, dungeonLayout.getCurrentRoom());
+    });
     mainmenu.addOption(opt);
     sfm::MenuOption opt2("Optionen", menuButton2);
     mainmenu.addOption(opt2);
-    sfm::MenuOption opt3("Beenden", [&mainmenu](){mainmenu.setFinished(true);});
+    sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
     mainmenu.addOption(opt3);
     mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
     mainmenu.setBackground("../images/wald.jpg");
@@ -34,10 +49,39 @@ int main() {
     text.setFont(font);
     mainmenu.setTemplateText(text);
 
+
     //now create the window and display the menus
-    window.create(sf::VideoMode(1200, 800), "DungeonPlusPlus!");
+    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "DungeonPlusPlus");
     splash.display(window);
     mainmenu.display(window);
+
+    sf::Clock clock;
+    while(!finished) {
+        sf::Event e{};
+        while(window.pollEvent(e)) {
+            switch(e.type) {
+                case sf::Event::Closed:
+                    finished = true;
+                    break;
+                case sf::Event::MouseButtonReleased:
+                    for(gui::Button &b : gamescene.getButtons()) {
+                        if(b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                            b.clicked();
+                            break;
+                        }
+                    }
+                    break;
+                case sf::Event::KeyPressed:
+                    if(e.key.code == sf::Keyboard::Escape) {
+                        finished = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        sf::sleep(sf::milliseconds(50));
+    }
 
     return 0;
 }

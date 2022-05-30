@@ -18,5 +18,4 @@ namespace game {
 
 }
 
-
 #endif //DUNGEONPLUSPLUS_ROOM_H
