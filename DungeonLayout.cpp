@@ -14,7 +14,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const unsigned
         rooms.emplace_back(RoomFactory::generateRoom(type));
     }
 
-    for(roomPtr &r : rooms) {
+    for(const roomPtr &r : rooms) {
         dungeonMap.insert(std::make_pair(currentPosition, r));
         addPossiblePositions();
         getRandomNextPosition();
@@ -26,7 +26,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const unsigned
 }
 
 void game::DungeonLayout::addPossiblePositions() {
-    int neighbour;
+    unsigned int neighbour;
         if(currentPosition < 90) {
             neighbour = currentPosition + 10;
             if(!dungeonMap.count(neighbour)) {

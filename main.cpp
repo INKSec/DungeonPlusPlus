@@ -3,9 +3,10 @@
 #include "MainMenu.h"
 #include "GameScene.h"
 #include "DungeonLayout.h"
+#define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
-#define ROOM_COUNT 20
+#define ROOM_COUNT 15
 
 using namespace std;
 
@@ -25,9 +26,14 @@ int main() {
     game::DungeonLayout dungeonLayout;
     game::GameScene gamescene{dungeonLayout};
     game::DungeonLayout::roomMap dungeonMap {dungeonLayout.generateDungeon(ROOM_COUNT)};
-    for(auto pair : dungeonMap) {
+
+    // print room numbers and room count (just for testing - remove later)
+    int actualRoomCount = 0;
+    for(auto &pair : dungeonMap) {
         cout << pair.first << endl;
+        actualRoomCount++;
     }
+    cout << "Actual Room Count: " << actualRoomCount << endl;
 
     //create the main menu
     bool finished {false};
@@ -51,7 +57,7 @@ int main() {
 
 
     //now create the window and display the menus
-    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "DungeonPlusPlus");
+    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), GAME_TITLE);
     splash.display(window);
     mainmenu.display(window);
 

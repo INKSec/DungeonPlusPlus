@@ -10,12 +10,12 @@ game::GameScene::GameScene(DungeonLayout &_dungeonLayout) : dungeonLayout(_dunge
 void game::GameScene::display(sf::RenderWindow &window, const std::shared_ptr<Room> &currentRoom) {
     sf::Sprite _hud;
     _hud.setTexture(hud);
-    _hud.setPosition(0, window.getSize().y - _hud.getGlobalBounds().height);
+    _hud.setPosition(0, static_cast<float>(window.getSize().y) - _hud.getGlobalBounds().height);
     sf::Sprite bg;
     setBackground(currentRoom->getBackground());
     bg.setTexture(background);
-    bg.setScale(window.getSize().x / static_cast<float>(background.getSize().x),
-                (window.getSize().y - _hud.getGlobalBounds().height) / static_cast<float>(background.getSize().y));
+    bg.setScale(static_cast<float>(window.getSize().x) / static_cast<float>(background.getSize().x),
+                (static_cast<float>(window.getSize().y) - _hud.getGlobalBounds().height) / static_cast<float>(background.getSize().y));
     window.clear();
     window.draw(bg);
     window.draw(_hud);
