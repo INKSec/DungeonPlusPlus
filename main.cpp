@@ -3,6 +3,8 @@
 #include "MainMenu.h"
 #include "GameScene.h"
 #include "DungeonLayout.h"
+#include "DungeonMap.h"
+
 #define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
@@ -24,15 +26,16 @@ int main() {
 
     //create the dungeon rooms
     game::DungeonLayout dungeonLayout;
-    game::GameScene gamescene{dungeonLayout};
-    game::DungeonLayout::roomMap dungeonMap {dungeonLayout.generateDungeon(ROOM_COUNT)};
+    game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
+    gui::DungeonMap dungeonMap{window, rooms};
+    gui::GameScene gamescene{window, dungeonLayout, dungeonMap};
 
     //create the main menu
     bool finished {false};
     sfm::Menu mainmenu;
     sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &window, &dungeonLayout](){
         mainmenu.setFinished(true);
-        gamescene.display(window, dungeonLayout.getCurrentRoom());
+        gamescene.display(dungeonLayout.getCurrentRoom());
     });
     mainmenu.addOption(opt);
     sfm::MenuOption opt2("Optionen", menuButton2);

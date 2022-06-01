@@ -7,28 +7,31 @@
 #include "Button.h"
 #include "Room.h"
 #include "DungeonLayout.h"
+#include "DungeonMap.h"
 
-namespace game {
+namespace gui {
 
     class GameScene {
     public:
-        explicit GameScene(DungeonLayout &_dungeonLayout);
-        void display(sf::RenderWindow &window, const std::shared_ptr<Room> &room);
-        void explorationView(sf::RenderWindow &window);
+        explicit GameScene(sf::RenderWindow &_window, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
+        void display(const std::shared_ptr<game::Room> &room);
+        void explorationView();
         void combatView();
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
-        std::vector<gui::Button> getButtons() const;
+        std::vector<Button> getButtons() const;
     private:
-        DungeonLayout& dungeonLayout;
-        std::vector<gui::Button> buttons;
+        game::DungeonLayout &dungeonLayout;
+        gui::DungeonMap &dungeonMap;
+        std::shared_ptr<game::Room> activeRoom;
+        std::vector<Button> buttons;
         sf::Texture background;
         sf::Texture hud;
         sf::Font font;
-        std::shared_ptr<Room> activeRoom;
+        sf::RenderWindow &window;
+        bool mapIsOpen {false};
     };
 
 }
-
 
 #endif //DUNGEONPLUSPLUS_GAMESCENE_H

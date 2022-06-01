@@ -10,8 +10,8 @@ namespace game {
 
     class DungeonLayout {
     public:
-        using roomMap = std::map<unsigned int, std::shared_ptr<Room>>;
         using roomPtr = std::shared_ptr<Room>;
+        using roomMap = std::map<unsigned int, roomPtr>;
         roomMap generateDungeon(const unsigned int &roomCount);
         roomMap getDungeonMap() const;
         unsigned int getCurrentPosition() const;
