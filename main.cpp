@@ -6,7 +6,7 @@
 #define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
-#define ROOM_COUNT 15
+#define ROOM_COUNT 10
 
 using namespace std;
 
@@ -26,14 +26,6 @@ int main() {
     game::DungeonLayout dungeonLayout;
     game::GameScene gamescene{dungeonLayout};
     game::DungeonLayout::roomMap dungeonMap {dungeonLayout.generateDungeon(ROOM_COUNT)};
-
-    // print room numbers and room count (just for testing - remove later)
-    int actualRoomCount = 0;
-    for(auto &pair : dungeonMap) {
-        cout << pair.first << endl;
-        actualRoomCount++;
-    }
-    cout << "Actual Room Count: " << actualRoomCount << endl;
 
     //create the main menu
     bool finished {false};

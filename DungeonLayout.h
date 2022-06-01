@@ -3,6 +3,7 @@
 
 #include <map>
 #include <memory>
+#include <set>
 #include "Room.h"
 
 namespace game {
@@ -20,7 +21,7 @@ namespace game {
         // Map mit Raum Position als Key und Raum Pointer als Value
         roomMap dungeonMap;
         // Vector mit allen momentan an bestehende Räume angrenzenden, unbebauten Raumplätzen
-        std::vector<int> roomPositions;
+        std::set<unsigned int> roomPositions;
         // Position des Startraumes innerhalb des möglichen Layouts: 11 (unten links) bis 99 (oben rechts)
         const unsigned int startingPosition {55};
         unsigned int currentPosition {startingPosition};

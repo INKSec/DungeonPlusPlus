@@ -9,6 +9,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const unsigned
     // Eingang wird immer als Erstes generieren
     rooms.emplace_back(RoomFactory::generateRoom(RoomFactory::roomType::Entrance));
 
+    srand(time(NULL));
     for(int i = 1; i < roomCount; i++) {
         type = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
         rooms.emplace_back(RoomFactory::generateRoom(type));
@@ -30,27 +31,28 @@ void game::DungeonLayout::addPossiblePositions() {
         if(currentPosition < 90) {
             neighbour = currentPosition + 10;
             if(!dungeonMap.count(neighbour)) {
-                roomPositions.emplace_back(neighbour);
+                roomPositions.insert(neighbour);
             }
         }
         if(currentPosition % 10 != 9) {
             neighbour = currentPosition + 1;
             if(!dungeonMap.count(neighbour)) {
-                roomPositions.emplace_back(neighbour);
+                roomPositions.insert(neighbour);
             }
         }
         if(currentPosition > 20) {
             neighbour = currentPosition - 10;
             if(!dungeonMap.count(neighbour)) {
-                roomPositions.emplace_back(neighbour);
+                roomPositions.insert(neighbour);
             }
         }
         if(currentPosition % 10 != 1) {
             neighbour = currentPosition - 1;
             if(!dungeonMap.count(neighbour)) {
-                roomPositions.emplace_back(neighbour);
+                roomPositions.insert(neighbour);
             }
         }
+        roomPositions.erase(currentPosition);
 }
 
 
@@ -59,7 +61,10 @@ game::DungeonLayout::roomMap game::DungeonLayout::getDungeonMap() const {
 }
 
 void game::DungeonLayout::getRandomNextPosition() {
-    currentPosition = roomPositions[rand() % roomPositions.size()];
+    auto it {roomPositions.begin()};
+    unsigned int random {rand() % roomPositions.size()};
+    std::advance(it, random);
+    currentPosition = *it;
 }
 
 unsigned int game::DungeonLayout::getCurrentPosition() const {
