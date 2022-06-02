@@ -17,6 +17,8 @@ namespace gui
             const float &width,
             const float &height,
             const sf::Font &font,
+            const sf::Color &buttonColor,
+            const sf::Color &textColor,
             const std::function<void(void)> &callback
         );
         void render(sf::RenderTarget &target);
@@ -26,7 +28,6 @@ namespace gui
     private:
         sf::RectangleShape shape;
         sf::Text text;
-        sf::Color defaultColor {sf::Color::White};
         std::function<void(void)> callback;
     };
 };

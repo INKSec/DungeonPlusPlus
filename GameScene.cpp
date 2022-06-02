@@ -1,6 +1,11 @@
 #include "GameScene.h"
 #include <iostream>
 
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 50
+#define BUTTON_COLOR sf::Color::White
+#define BUTTON_TEXT_COLOR sf::Color::Black
+
 gui::GameScene::GameScene(
     sf::RenderWindow &_window,
     game::DungeonLayout &_dungeonLayout,
@@ -39,8 +44,8 @@ void gui::GameScene::explorationView() {
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
     std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
-    buttons.emplace_back("Go North", Col1, Row1, 200, 50, font, [this](){
-        const unsigned int newPosition = {dungeonLayout.getCurrentPosition() + 10};
+    buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        const int newPosition = {dungeonLayout.getCurrentPosition() + 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
             display(dungeonLayout.getCurrentRoom());
@@ -48,8 +53,8 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further north." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go East", Col2, Row1, 200, 50, font, [this](){
-        const unsigned int newPosition = {dungeonLayout.getCurrentPosition() + 1};
+    buttons.emplace_back("Go East", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        const int newPosition = {dungeonLayout.getCurrentPosition() + 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
             display(dungeonLayout.getCurrentRoom());
@@ -57,8 +62,8 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further east." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go West", Col1, Row2, 200, 50, font, [this](){
-        const unsigned int newPosition = {dungeonLayout.getCurrentPosition() - 1};
+    buttons.emplace_back("Go West", Col1, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        const int newPosition = {dungeonLayout.getCurrentPosition() - 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
             display(dungeonLayout.getCurrentRoom());
@@ -66,8 +71,8 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further west." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go South", Col2, Row2, 200, 50, font, [this](){
-        const unsigned int newPosition = {dungeonLayout.getCurrentPosition() - 10};
+    buttons.emplace_back("Go South", Col2, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        const int newPosition = {dungeonLayout.getCurrentPosition() - 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
             display(dungeonLayout.getCurrentRoom());
@@ -75,7 +80,7 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further south." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Map", Col3, Row1, 200, 50, font, [this](){
+    buttons.emplace_back("Map", Col3, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         mapIsOpen = !mapIsOpen;
         display(dungeonLayout.getCurrentRoom());
     });

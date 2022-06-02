@@ -11,20 +11,20 @@ namespace game {
     class DungeonLayout {
     public:
         using roomPtr = std::shared_ptr<Room>;
-        using roomMap = std::map<unsigned int, roomPtr>;
-        roomMap generateDungeon(const unsigned int &roomCount);
+        using roomMap = std::map<int, roomPtr>;
+        roomMap generateDungeon(const int &roomCount);
         roomMap getDungeonMap() const;
-        unsigned int getCurrentPosition() const;
+        int getCurrentPosition() const;
         roomPtr getCurrentRoom() const;
-        void setCurrentPosition(const unsigned int &newPosition);
+        void setCurrentPosition(const int &newPosition);
     private:
         // Map mit Raum Position als Key und Raum Pointer als Value
         roomMap dungeonMap;
         // Vector mit allen momentan an bestehende Räume angrenzenden, unbebauten Raumplätzen
-        std::set<unsigned int> roomPositions;
+        std::set<int> roomPositions;
         // Position des Startraumes innerhalb des möglichen Layouts: 11 (unten links) bis 99 (oben rechts)
-        const unsigned int startingPosition {55};
-        unsigned int currentPosition {startingPosition};
+        const int startingPosition {55};
+        int currentPosition {startingPosition};
         void addPossiblePositions();
         void getRandomNextPosition();
     };

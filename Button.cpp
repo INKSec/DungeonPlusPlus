@@ -7,16 +7,18 @@ gui::Button::Button(
     const float &width,
     const float &height,
     const sf::Font &font,
+    const sf::Color &buttonColor,
+    const sf::Color &textColor,
     const std::function<void(void)> &callback
 ) {
-    // Build the and position the button
+    // Build and position the button
     shape.setSize(sf::Vector2f(width, height));
     shape.setPosition(sf::Vector2f(xPos, yPos));
-    shape.setFillColor(defaultColor);
+    shape.setFillColor(buttonColor);
     // Build and position the buttonText
     text.setFont(font);
     text.setString(_text);
-    text.setFillColor(sf::Color::Black);
+    text.setFillColor(textColor);
     text.setCharacterSize(20);
     text.setPosition(
     shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - (text.getGlobalBounds().width / 2.f),

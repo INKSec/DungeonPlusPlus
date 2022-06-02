@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "DungeonLayout.h"
+#include "Button.h"
 
 namespace gui {
 
@@ -13,6 +14,11 @@ namespace gui {
     private:
         const game::DungeonLayout::roomMap &dungeonMap;
         sf::RenderWindow &window;
+        float mapCenterX {0};
+        float mapCenterY {0};
+        enum class Axis {xAxis, yAxis};
+        template<Axis axis>
+        float calcPosition(const int &relativePosition) const;
     };
 
 }

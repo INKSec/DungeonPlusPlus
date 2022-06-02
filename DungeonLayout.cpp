@@ -2,7 +2,7 @@
 #include "DungeonLayout.h"
 #include "RoomFactory.h"
 
-game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const unsigned int &roomCount) {
+game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roomCount) {
     std::vector<roomPtr> rooms;
     RoomFactory::roomType type;
     rooms.reserve(roomCount);
@@ -27,7 +27,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const unsigned
 }
 
 void game::DungeonLayout::addPossiblePositions() {
-    unsigned int neighbour;
+    int neighbour;
         if(currentPosition < 90) {
             neighbour = currentPosition + 10;
             if(!dungeonMap.count(neighbour)) {
@@ -67,11 +67,11 @@ void game::DungeonLayout::getRandomNextPosition() {
     currentPosition = *it;
 }
 
-unsigned int game::DungeonLayout::getCurrentPosition() const {
+int game::DungeonLayout::getCurrentPosition() const {
     return currentPosition;
 }
 
-void game::DungeonLayout::setCurrentPosition(const unsigned int &newPosition) {
+void game::DungeonLayout::setCurrentPosition(const int &newPosition) {
     currentPosition = newPosition;
 }
 
