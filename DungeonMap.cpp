@@ -47,7 +47,7 @@ float gui::DungeonMap::calcPosition(const int &relativePosition) const {
             newPosition = mapCenterX + (newPosition * 80);
             break;
         case Axis::yAxis:
-            newPosition = mapCenterY + static_cast<float>(((relativePosition / 10) - 5) * 80);
+            newPosition = mapCenterY - static_cast<float>(((relativePosition / 10) - 5) * 80);
             break;
     }
     return newPosition;

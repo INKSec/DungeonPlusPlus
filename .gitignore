@@ -3,5 +3,6 @@ cmake_modules/
 cmake-build-debug/
 temp/
 temporary/
+.idea/
 *.log
 *.cmake
