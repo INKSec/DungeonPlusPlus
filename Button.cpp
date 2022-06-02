@@ -7,6 +7,7 @@ gui::Button::Button(
     const float &width,
     const float &height,
     const sf::Font &font,
+    const unsigned int &fontSize,
     const sf::Color &buttonColor,
     const sf::Color &textColor,
     const std::function<void(void)> &callback
@@ -19,7 +20,7 @@ gui::Button::Button(
     text.setFont(font);
     text.setString(_text);
     text.setFillColor(textColor);
-    text.setCharacterSize(20);
+    text.setCharacterSize(fontSize);
     text.setPosition(
     shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - (text.getGlobalBounds().width / 2.f),
     shape.getPosition().y + (shape.getGlobalBounds().height / 2.f) - (text.getGlobalBounds().height / 1.5f)
@@ -28,13 +29,12 @@ gui::Button::Button(
     setCallback(callback);
 }
 
-// Render/Draw the button in the gameWindow
+// Draw the button in the gameWindow
 void gui::Button::render(sf::RenderTarget &target) {
     target.draw(shape);
     target.draw(text);
 }
 
-// When clicked, execute the function stored in callback
 void gui::Button::clicked() {
     callback();
 }

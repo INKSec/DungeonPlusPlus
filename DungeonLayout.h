@@ -18,11 +18,15 @@ namespace game {
         roomPtr getCurrentRoom() const;
         void setCurrentPosition(const int &newPosition);
     private:
-        // Map mit Raum Position als Key und Raum Pointer als Value
+        /*
+         * Map of Rooms.
+         * Key: int value representing the room's position
+         * Value: shared_ptr to the actual Room Object
+        */
         roomMap dungeonMap;
-        // Vector mit allen momentan an bestehende Räume angrenzenden, unbebauten Raumplätzen
+        // Set that holds possible empty positions where a room can still be placed
         std::set<int> roomPositions;
-        // Position des Startraumes innerhalb des möglichen Layouts: 11 (unten links) bis 99 (oben rechts)
+        // Position of Dungeon Entrance (first Room). Dungeon ranges from 11 (bottom left) to 99 (top right)
         const int startingPosition {55};
         int currentPosition {startingPosition};
         void addPossiblePositions();

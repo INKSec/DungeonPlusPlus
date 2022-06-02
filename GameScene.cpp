@@ -5,6 +5,7 @@
 #define BUTTON_HEIGHT 50
 #define BUTTON_COLOR sf::Color::White
 #define BUTTON_TEXT_COLOR sf::Color::Black
+#define BUTTON_FONT_SIZE 20
 
 gui::GameScene::GameScene(
     sf::RenderWindow &_window,
@@ -19,7 +20,7 @@ gui::GameScene::GameScene(
     setHUD("../images/hud.jpg");
 }
 
-// Diese Funktion setzt alle grafischen Elemente einer Spielszene zusammen und stellt sie dar
+// Draw all graphical elements in the scene and display them
 void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     sf::Sprite _hud;
     _hud.setTexture(hud);
@@ -37,6 +38,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     window.display();
 }
 
+// Generate the specific HUD elements for the Dungeon Exploration state
 void gui::GameScene::explorationView() {
     const unsigned int Row1 {window.getSize().y - 200};
     const unsigned int Row2 {window.getSize().y - 100};
@@ -44,7 +46,7 @@ void gui::GameScene::explorationView() {
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
     std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
-    buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() + 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -53,7 +55,7 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further north." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go East", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go East", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() + 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -62,7 +64,7 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further east." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go West", Col1, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go West", Col1, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() - 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -71,7 +73,7 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further west." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go South", Col2, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go South", Col2, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() - 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -80,7 +82,7 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further south." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Map", Col3, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Map", Col3, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         mapIsOpen = !mapIsOpen;
         display(dungeonLayout.getCurrentRoom());
     });
@@ -89,6 +91,7 @@ void gui::GameScene::explorationView() {
     }
 }
 
+// Generate the specific HUD elements for the Combat state
 void gui::GameScene::combatView() {}
 
 void gui::GameScene::setBackground(const std::string &path) {

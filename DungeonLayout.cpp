@@ -6,15 +6,17 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
     std::vector<roomPtr> rooms;
     RoomFactory::roomType type;
     rooms.reserve(roomCount);
-    // Eingang wird immer als Erstes generieren
+    // Always generate the Entrance-Room first
     rooms.emplace_back(RoomFactory::generateRoom(RoomFactory::roomType::Entrance));
 
+    // Randomly generate Rooms of different Types (other than Entrance)
     srand(time(NULL));
     for(int i = 1; i < roomCount; i++) {
         type = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
         rooms.emplace_back(RoomFactory::generateRoom(type));
     }
 
+    // Place the rooms in the map with a randomly selected Position that connects to at least 1 other Room
     for(const roomPtr &r : rooms) {
         dungeonMap.insert(std::make_pair(currentPosition, r));
         addPossiblePositions();
@@ -26,6 +28,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
     return dungeonMap;
 }
 
+// Calculate possible Positions where the next Room can be placed at
 void game::DungeonLayout::addPossiblePositions() {
     int neighbour;
         if(currentPosition < 90) {
@@ -55,16 +58,16 @@ void game::DungeonLayout::addPossiblePositions() {
         roomPositions.erase(currentPosition);
 }
 
-
-game::DungeonLayout::roomMap game::DungeonLayout::getDungeonMap() const {
-    return dungeonMap;
-}
-
+// Randomly select one of the currently possible Locations
 void game::DungeonLayout::getRandomNextPosition() {
     auto it {roomPositions.begin()};
     unsigned int random {rand() % roomPositions.size()};
     std::advance(it, random);
     currentPosition = *it;
+}
+
+game::DungeonLayout::roomMap game::DungeonLayout::getDungeonMap() const {
+    return dungeonMap;
 }
 
 int game::DungeonLayout::getCurrentPosition() const {

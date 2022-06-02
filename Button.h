@@ -17,6 +17,7 @@ namespace gui
             const float &width,
             const float &height,
             const sf::Font &font,
+            const unsigned int &fontSize,
             const sf::Color &buttonColor,
             const sf::Color &textColor,
             const std::function<void(void)> &callback
