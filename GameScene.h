@@ -14,7 +14,7 @@ namespace gui {
     class GameScene {
     public:
         explicit GameScene(sf::RenderWindow &_window, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
-        void display(const std::shared_ptr<game::Room> &room);
+        void display(const std::shared_ptr<game::Room> &currentRoom);
         void explorationView();
         void combatView();
         void setBackground(const std::string &path);

@@ -1,0 +1,35 @@
+@startuml
+abstract        Entity
+abstract        Enemy
+class           Player
+class           Enemy1
+class           Enemy2
+class           DungeonLayout {
+  + map<int, room> generateDungeon();
+  - void addPossiblePositions();
+  - void getRandomNextPosition();
+}
+
+class           DungeonMap {
+  + void draw();
+}
+
+class           GameScene {
+  + void display();
+}
+class           Room
+class           Button {
+  + void render();
+  + void clicked();
+}
+
+Entity <|-- Enemy
+Entity <|-- Player
+Enemy <|-- Enemy1
+Enemy <|-- Enemy2
+GameScene "1" *-- "many" Button : contains
+GameScene "1" o-- "1" DungeonLayout
+GameScene "1" o-- "1" DungeonMap
+DungeonLayout "1" o-- "many" Room
+DungeonMap "1" o-- "many" Room
+@enduml

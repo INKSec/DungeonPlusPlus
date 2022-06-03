@@ -50,7 +50,6 @@ int main() {
     text.setFont(font);
     mainmenu.setTemplateText(text);
 
-
     //now create the window and display the menus
     window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), GAME_TITLE);
     splash.display(window);
