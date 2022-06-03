@@ -36,7 +36,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     window.draw(_hud);
     buttons.clear();
     explorationView();
-    if(mapIsOpen) dungeonMap.draw();
+    if(mapIsOpen) dungeonMap.draw(dungeonLayout.getCurrentPosition());
     window.display();
 }
 
@@ -95,7 +95,6 @@ void gui::GameScene::explorationView() {
         display(dungeonLayout.getCurrentRoom());
     });
     for(auto &b : buttons) {
-        std::cout << "Button rendered" << std::endl;
         b.render(window);
     }
 }

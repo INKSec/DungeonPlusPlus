@@ -10,7 +10,7 @@ namespace gui {
     class DungeonMap {
     public:
         explicit DungeonMap(sf::RenderWindow &_window, const game::DungeonLayout::roomMap &_dungeonMap);
-        void draw();
+        void draw(const int &currentPosition);
     private:
         const game::DungeonLayout::roomMap &dungeonMap;
         sf::RenderWindow &window;

@@ -3,6 +3,7 @@
 #define BUTTON_WIDTH 50
 #define BUTTON_HEIGHT 50
 #define BUTTON_COLOR sf::Color::White
+#define CURRENT_POS_COLOR sf::Color::Green
 #define BUTTON_TEXT_COLOR sf::Color::Black
 #define BUTTON_FONT_SIZE 11
 #define BUTTON_MARGIN 70
@@ -10,7 +11,7 @@
 gui::DungeonMap::DungeonMap(sf::RenderWindow &_window, const game::DungeonLayout::roomMap &_dungeonMap) : window{_window}, dungeonMap{_dungeonMap} {}
 
 // Draw the Map Overlay containing the Dungeon's Rooms
-void gui::DungeonMap::draw() {
+void gui::DungeonMap::draw(const int &currentPosition) {
     sf::Font font;
     font.loadFromFile("../fonts/Arial.ttf");
     sf::Texture texture;
@@ -29,7 +30,7 @@ void gui::DungeonMap::draw() {
             calcPosition<Axis::xAxis>(r.first) - BUTTON_WIDTH / 2,
             calcPosition<Axis::yAxis>(r.first) - BUTTON_HEIGHT / 2,
             BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE,
-            BUTTON_COLOR, BUTTON_TEXT_COLOR,
+            (r.first == currentPosition ? CURRENT_POS_COLOR : BUTTON_COLOR), BUTTON_TEXT_COLOR,
             [](){
             std::cout << "Clicked!" << std::endl;
             }

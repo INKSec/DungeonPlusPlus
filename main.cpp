@@ -8,7 +8,7 @@
 #define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
 #define WINDOW_HEIGHT 800
-#define ROOM_COUNT 10
+#define ROOM_COUNT 20
 
 using namespace std;
 
@@ -33,7 +33,7 @@ int main() {
     //create the main menu
     bool finished {false};
     sfm::Menu mainmenu;
-    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &window, &dungeonLayout](){
+    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout](){
         mainmenu.setFinished(true);
         gamescene.display(dungeonLayout.getCurrentRoom());
     });
