@@ -5,6 +5,7 @@
 #define BUTTON_COLOR sf::Color::White
 #define BUTTON_TEXT_COLOR sf::Color::Black
 #define BUTTON_FONT_SIZE 11
+#define BUTTON_MARGIN 70
 
 gui::DungeonMap::DungeonMap(sf::RenderWindow &_window, const game::DungeonLayout::roomMap &_dungeonMap) : window{_window}, dungeonMap{_dungeonMap} {}
 
@@ -16,9 +17,9 @@ void gui::DungeonMap::draw() {
     texture.loadFromFile("../images/dark_bg.jpg");
     sf::Sprite bg;
     bg.setTexture(texture);
-    bg.setPosition((static_cast<float>(window.getSize().x) * 0.1f), (static_cast<float>(window.getSize().y) * 0.1f));
-    bg.setScale((static_cast<float>(window.getSize().x) * 0.8f) / (static_cast<float>(texture.getSize().x)),
-                (static_cast<float>(window.getSize().y) * 0.6f) / (static_cast<float>(texture.getSize().y)));
+    bg.setPosition((static_cast<float>(window.getSize().x) * 0.2f), (static_cast<float>(window.getSize().y) * 0.025f));
+    bg.setScale((static_cast<float>(window.getSize().x) * 0.6f) / (static_cast<float>(texture.getSize().x)),
+                (static_cast<float>(window.getSize().y) * 0.65f) / (static_cast<float>(texture.getSize().y)));
     window.draw(bg);
     mapCenterX = bg.getPosition().x + (bg.getGlobalBounds().width / 2);
     mapCenterY = bg.getPosition().y + (bg.getGlobalBounds().height / 2);
@@ -44,10 +45,10 @@ float gui::DungeonMap::calcPosition(const int &relativePosition) const {
     switch(axis) {
         case Axis::xAxis:
             newPosition = static_cast<float>((relativePosition % 10) - 5);
-            newPosition = mapCenterX + (newPosition * 80);
+            newPosition = mapCenterX + (newPosition * BUTTON_MARGIN);
             break;
         case Axis::yAxis:
-            newPosition = mapCenterY - static_cast<float>(((relativePosition / 10) - 5) * 80);
+            newPosition = mapCenterY - static_cast<float>(((relativePosition / 10) - 5) * BUTTON_MARGIN);
             break;
     }
     return newPosition;

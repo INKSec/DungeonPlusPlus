@@ -23,6 +23,7 @@ gui::GameScene::GameScene(
 // Draw all graphical elements in the scene and display them
 void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     sf::Sprite _hud;
+    _hud.setScale(1, 0.9);
     _hud.setTexture(hud);
     _hud.setPosition(0, static_cast<float>(window.getSize().y) - _hud.getGlobalBounds().height);
     sf::Sprite bg;
@@ -33,6 +34,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     window.clear();
     window.draw(bg);
     window.draw(_hud);
+    buttons.clear();
     explorationView();
     if(mapIsOpen) dungeonMap.draw();
     window.display();
@@ -40,8 +42,8 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
 
 // Generate the specific HUD elements for the Dungeon Exploration state
 void gui::GameScene::explorationView() {
-    const unsigned int Row1 {window.getSize().y - 200};
-    const unsigned int Row2 {window.getSize().y - 100};
+    const unsigned int Row1 {window.getSize().y - 180};
+    const unsigned int Row2 {window.getSize().y - 90};
     const unsigned int Col1 {50};
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
@@ -82,11 +84,18 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further south." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Map", Col3, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back(
+            "Map", Col3, Row1,
+            BUTTON_WIDTH, BUTTON_HEIGHT,
+            font, BUTTON_FONT_SIZE,
+            (mapIsOpen ? BUTTON_TEXT_COLOR : BUTTON_COLOR),
+            (mapIsOpen ? BUTTON_COLOR : BUTTON_TEXT_COLOR),
+            [this](){
         mapIsOpen = !mapIsOpen;
         display(dungeonLayout.getCurrentRoom());
     });
     for(auto &b : buttons) {
+        std::cout << "Button rendered" << std::endl;
         b.render(window);
     }
 }

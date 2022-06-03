@@ -31,7 +31,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
 // Calculate possible Positions where the next Room can be placed at
 void game::DungeonLayout::addPossiblePositions() {
     int neighbour;
-        if(currentPosition < 90) {
+        if(currentPosition < 80) {
             neighbour = currentPosition + 10;
             if(!dungeonMap.count(neighbour)) {
                 roomPositions.insert(neighbour);
@@ -43,7 +43,7 @@ void game::DungeonLayout::addPossiblePositions() {
                 roomPositions.insert(neighbour);
             }
         }
-        if(currentPosition > 20) {
+        if(currentPosition > 30) {
             neighbour = currentPosition - 10;
             if(!dungeonMap.count(neighbour)) {
                 roomPositions.insert(neighbour);
