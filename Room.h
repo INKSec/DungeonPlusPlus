@@ -2,6 +2,7 @@
 #define DUNGEONPLUSPLUS_ROOM_H
 
 #include <SFML/Graphics.hpp>
+#include "Enemy.h"
 
 namespace game {
 
@@ -11,9 +12,12 @@ namespace game {
         explicit Room(std::string pathToBackground, std::string _name);
         std::string getBackground() const;
         std::string getName() const;
+        std::shared_ptr<Enemy> getEnemy() const;
+        void setEnemy(std::shared_ptr<Enemy> _enemy);
     private:
         const std::string background;
         const std::string name;
+        std::shared_ptr<Enemy> enemy {nullptr};
     };
 
 }

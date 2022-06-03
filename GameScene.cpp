@@ -35,7 +35,11 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     window.draw(bg);
     window.draw(_hud);
     buttons.clear();
-    explorationView();
+    if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getHealth() > 0) {
+        combatView();
+    } else {
+        explorationView();
+    }
     if(mapIsOpen) dungeonMap.draw(dungeonLayout.getCurrentPosition());
     window.display();
 }
@@ -100,7 +104,36 @@ void gui::GameScene::explorationView() {
 }
 
 // Generate the specific HUD elements for the Combat state
-void gui::GameScene::combatView() {}
+void gui::GameScene::combatView() {
+    const unsigned int Row1 {window.getSize().y - 180};
+    const unsigned int Row2 {window.getSize().y - 90};
+    const unsigned int Col1 {50};
+    const unsigned int Col2 {300};
+    const unsigned int Col3 {550};
+    mapIsOpen = false;
+    std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
+    buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        std::cerr << "not implemented" << std::endl;
+    });
+    buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+        dungeonLayout.setCurrentPosition(dungeonLayout.getPreviousPosition());
+        display(dungeonLayout.getCurrentRoom());
+    });
+    for(auto &b : buttons) {
+        b.render(window);
+    }
+    drawEnemy();
+}
+
+void gui::GameScene::drawEnemy() {
+    sf::Sprite sprite;
+    sf::Texture texture;
+    texture.loadFromFile(dungeonLayout.getCurrentRoom()->getEnemy()->getSprite());
+    sprite.setTexture(texture);
+    sprite.setPosition(window.getSize().x * 0.5f, window.getSize().y * 0.45f);
+    window.draw(sprite);
+}
+
 
 void gui::GameScene::setBackground(const std::string &path) {
     background.loadFromFile(path);

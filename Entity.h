@@ -8,16 +8,17 @@ namespace game {
 
     class Entity {
     public:
-        Entity() = delete;
         virtual ~Entity() = default;
         using entityPtr = std::shared_ptr<Entity>;
         virtual void attack(entityPtr &opponent);
-        virtual std::string getName() const;
-        virtual std::string getSprite() const;
-        virtual int getHealth() const;
-        virtual int getAttackPower() const;
-        virtual void setHealth(const int &_health);
-        virtual void setAttackPower(const int &_attackPower);
+        virtual std::string getName() const = 0;
+        virtual std::string getSprite() const = 0;
+        virtual int getHealth() const = 0;
+        virtual int getAttackPower() const = 0;
+        virtual void setHealth(const int &_health) = 0;
+        virtual void setAttackPower(const int &_attackPower) = 0;
+    protected:
+        Entity() = default;
     private:
         std::string name;
         std::string sprite;

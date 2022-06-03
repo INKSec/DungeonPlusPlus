@@ -1,4 +1,3 @@
-#include <iostream>
 #include "RoomFactory.h"
 
 std::shared_ptr<game::Room> game::RoomFactory::generateRoom(const game::RoomFactory::roomType &type) {

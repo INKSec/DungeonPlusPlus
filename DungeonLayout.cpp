@@ -1,6 +1,7 @@
 #include <iostream>
 #include "DungeonLayout.h"
 #include "RoomFactory.h"
+#include "EnemyFactory.h"
 
 game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roomCount) {
     std::vector<roomPtr> rooms;
@@ -14,6 +15,9 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
     for(int i = 1; i < roomCount; i++) {
         type = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
         rooms.emplace_back(RoomFactory::generateRoom(type));
+        if(type == RoomFactory::roomType::Corridor) {
+            rooms[i]->setEnemy(EnemyFactory::generateEnemy(EnemyFactory::enemyType::Spider));
+        }
     }
 
     // Place the rooms in the map with a randomly selected Position that connects to at least 1 other Room
@@ -74,7 +78,12 @@ int game::DungeonLayout::getCurrentPosition() const {
     return currentPosition;
 }
 
+int game::DungeonLayout::getPreviousPosition() const {
+    return previousPosition;
+}
+
 void game::DungeonLayout::setCurrentPosition(const int &newPosition) {
+    previousPosition = currentPosition;
     currentPosition = newPosition;
 }
 

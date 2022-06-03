@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 project(DungeonPlusPlus)
 
 set(CMAKE_CXX_STANDARD 14)
-add_executable(DungeonPlusPlus main.cpp MainMenu.cpp MainMenu.h GameScene.cpp GameScene.h Button.cpp Button.h Room.cpp Room.h DungeonLayout.cpp DungeonLayout.h RoomFactory.cpp RoomFactory.h DungeonMap.cpp DungeonMap.h Entity.h Entity.cpp)
+add_executable(DungeonPlusPlus main.cpp MainMenu.cpp MainMenu.h GameScene.cpp GameScene.h Button.cpp Button.h Room.cpp Room.h DungeonLayout.cpp DungeonLayout.h RoomFactory.cpp RoomFactory.h DungeonMap.cpp DungeonMap.h Entity.h Entity.cpp Enemy.cpp Enemy.h Spider.cpp Spider.h EnemyFactory.cpp EnemyFactory.h)
 include_directories(headers /usr/include D:/SFML/include)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")

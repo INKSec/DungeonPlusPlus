@@ -15,12 +15,13 @@ namespace gui {
     public:
         explicit GameScene(sf::RenderWindow &_window, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
         void display(const std::shared_ptr<game::Room> &currentRoom);
-        void explorationView();
-        void combatView();
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
         std::vector<Button> getButtons() const;
     private:
+        void explorationView();
+        void combatView();
+        void drawEnemy();
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
         std::shared_ptr<game::Room> activeRoom;

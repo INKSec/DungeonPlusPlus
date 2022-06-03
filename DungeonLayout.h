@@ -15,6 +15,7 @@ namespace game {
         roomMap generateDungeon(const int &roomCount);
         roomMap getDungeonMap() const;
         int getCurrentPosition() const;
+        int getPreviousPosition() const;
         roomPtr getCurrentRoom() const;
         void setCurrentPosition(const int &newPosition);
     private:
@@ -29,6 +30,7 @@ namespace game {
         // Position of Dungeon Entrance (first Room). Dungeon ranges from 11 (bottom left) to 99 (top right)
         const int startingPosition {55};
         int currentPosition {startingPosition};
+        int previousPosition {startingPosition};
         void addPossiblePositions();
         void getRandomNextPosition();
     };
