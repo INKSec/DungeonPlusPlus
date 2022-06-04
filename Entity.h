@@ -10,19 +10,21 @@ namespace game {
     public:
         virtual ~Entity() = default;
         using entityPtr = std::shared_ptr<Entity>;
-        virtual void attack(entityPtr &opponent);
+        virtual void attack(const entityPtr &opponent);
         virtual std::string getName() const = 0;
         virtual std::string getSprite() const = 0;
-        virtual int getHealth() const = 0;
+        virtual int getCurrentHealth() const = 0;
+        virtual int getMaxHealth() const = 0;
         virtual int getAttackPower() const = 0;
-        virtual void setHealth(const int &_health) = 0;
+        virtual void setCurrentHealth(const int &_health) = 0;
         virtual void setAttackPower(const int &_attackPower) = 0;
     protected:
         Entity() = default;
     private:
         std::string name;
         std::string sprite;
-        int health;
+        int currentHealth;
+        int maxHealth;
         int attackPower;
     };
 

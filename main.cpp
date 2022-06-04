@@ -4,6 +4,7 @@
 #include "GameScene.h"
 #include "DungeonLayout.h"
 #include "DungeonMap.h"
+#include "Player.h"
 
 #define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
@@ -24,11 +25,12 @@ int main() {
     splash.setTimeout(sf::seconds(2), splashScreenCallback);
     splash.setBackground("../images/Splash.png");
 
+    auto player {make_shared<game::Player>()};
     //create the dungeon rooms
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
-    gui::GameScene gamescene{window, dungeonLayout, dungeonMap};
+    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};
 
     //create the main menu
     bool finished {false};

@@ -8,16 +8,21 @@ std::string game::Spider::getSprite() const {
     return sprite;
 }
 
-int game::Spider::getHealth() const {
-    return health;
+int game::Spider::getCurrentHealth() const {
+    return currentHealth;
+}
+
+int game::Spider::getMaxHealth() const {
+    return maxHealth;
 }
 
 int game::Spider::getAttackPower() const {
     return attackPower;
 }
 
-void game::Spider::setHealth(const int &_health) {
-    health = _health;
+void game::Spider::setCurrentHealth(const int &_health) {
+    currentHealth = _health;
+    if(currentHealth < 0) currentHealth = 0;
 }
 
 void game::Spider::setAttackPower(const int &_attackPower) {

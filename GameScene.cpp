@@ -6,13 +6,16 @@
 #define BUTTON_COLOR sf::Color::White
 #define BUTTON_TEXT_COLOR sf::Color::Black
 #define BUTTON_FONT_SIZE 20
+#define ROW1 window.getSize().y - 180
 
 gui::GameScene::GameScene(
     sf::RenderWindow &_window,
+    std::shared_ptr<game::Player> &_player,
     game::DungeonLayout &_dungeonLayout,
     gui::DungeonMap &_dungeonMap)
     :
     window{_window},
+    player{_player},
     dungeonLayout(_dungeonLayout),
     dungeonMap{_dungeonMap}
 {
@@ -34,8 +37,10 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     window.clear();
     window.draw(bg);
     window.draw(_hud);
+    drawPlayer();
+    drawHealthBar();
     buttons.clear();
-    if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getHealth() > 0) {
+    if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getCurrentHealth() > 0) {
         combatView();
     } else {
         explorationView();
@@ -113,7 +118,9 @@ void gui::GameScene::combatView() {
     mapIsOpen = false;
     std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
     buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
-        std::cerr << "not implemented" << std::endl;
+        player->attack(dungeonLayout.getCurrentRoom()->getEnemy());
+        dungeonLayout.getCurrentRoom()->getEnemy()->attack(player);
+        display(dungeonLayout.getCurrentRoom());
     });
     buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         dungeonLayout.setCurrentPosition(dungeonLayout.getPreviousPosition());
@@ -132,6 +139,34 @@ void gui::GameScene::drawEnemy() {
     sprite.setTexture(texture);
     sprite.setPosition(window.getSize().x * 0.5f, window.getSize().y * 0.45f);
     window.draw(sprite);
+}
+
+void gui::GameScene::drawPlayer() {
+    sf::Sprite sprite;
+    sf::Texture texture;
+    texture.loadFromFile(player->getSprite());
+    sprite.setTexture(texture);
+    sprite.setPosition(window.getSize().x * 0.1f, window.getSize().y * 0.2f);
+    window.draw(sprite);
+}
+
+void gui::GameScene::drawHealthBar() {
+    sf::RectangleShape health, bar;
+    sf::Text text;
+    bar.setSize(sf::Vector2f{300, 50});
+    bar.setPosition(window.getSize().x - 350, ROW1);
+    bar.setFillColor(sf::Color::Black);
+    health.setSize(sf::Vector2f{290.f * (static_cast<float>(player->getCurrentHealth()) / (static_cast<float>(player->getMaxHealth()))), 40});
+    health.setPosition(bar.getPosition().x + 5, bar.getPosition().y + 5);
+    health.setFillColor(sf::Color::Red);
+    text.setFont(font);
+    text.setString(std::to_string(player->getCurrentHealth()) + "/" + std::to_string(player->getMaxHealth()));
+    text.setCharacterSize(16);
+    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2, bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
+    text.setFillColor(sf::Color::White);
+    window.draw(bar);
+    window.draw(health);
+    window.draw(text);
 }
 
 

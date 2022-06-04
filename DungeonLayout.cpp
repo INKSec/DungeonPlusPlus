@@ -83,8 +83,10 @@ int game::DungeonLayout::getPreviousPosition() const {
 }
 
 void game::DungeonLayout::setCurrentPosition(const int &newPosition) {
-    previousPosition = currentPosition;
-    currentPosition = newPosition;
+    if(newPosition != currentPosition) {
+        previousPosition = currentPosition;
+        currentPosition = newPosition;
+    }
 }
 
 game::DungeonLayout::roomPtr game::DungeonLayout::getCurrentRoom() const {

@@ -1,13 +1,13 @@
-#ifndef DUNGEONPLUSPLUS_SPIDER_H
-#define DUNGEONPLUSPLUS_SPIDER_H
+#ifndef DUNGEONPLUSPLUS_PLAYER_H
+#define DUNGEONPLUSPLUS_PLAYER_H
 
-#include "Enemy.h"
+#include "Entity.h"
 
 namespace game {
 
-    class Spider : public Enemy{
+    class Player : public Entity {
     public:
-        Spider() = default;
+        Player() = default;
         std::string getName() const override;
         std::string getSprite() const override;
         int getCurrentHealth() const override;
@@ -16,13 +16,13 @@ namespace game {
         void setCurrentHealth(const int &_health) override;
         void setAttackPower(const int &_attackPower) override;
     private:
-        std::string name {"Spider"};
-        std::string sprite {"../images/spider.png"};
-        int currentHealth {20};
-        int maxHealth {20};
-        int attackPower {5};
+        std::string name {"Player"};
+        std::string sprite {"../images/player.png"};
+        int currentHealth {50};
+        int maxHealth {100};
+        int attackPower {8};
     };
 
 }
 
-#endif //DUNGEONPLUSPLUS_SPIDER_H
+#endif //DUNGEONPLUSPLUS_PLAYER_H
