@@ -178,11 +178,11 @@ void menuButton2() {
 void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, std::string GAME_TITLE, sfm::Menu splash) {
 
 
-
+    auto player {std::make_shared<game::Player>()};
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
-    gui::GameScene gamescene{window, dungeonLayout, dungeonMap};
+    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};
 
     bool finished {false};
     sfm::Menu mainmenu;

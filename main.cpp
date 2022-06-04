@@ -25,19 +25,8 @@ int main() {
     splash.setTimeout(sf::seconds(2), splashScreenCallback);
     splash.setBackground("../images/Splash.png");
 
-    /*auto player {make_shared<game::Player>()};
-    //create the dungeon rooms
-    game::DungeonLayout dungeonLayout;
-    game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
-    gui::DungeonMap dungeonMap{window, rooms};
-    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};*/
-
-    sfm::Menu::buildMenu(window, WINDOW_WIDTH, WINDOW_HEIGHT, ROOM_COUNT, GAME_TITLE, splash);
-    //create the dungeon rooms
-
-
     //create the main menu
-
+    sfm::Menu::buildMenu(window, WINDOW_WIDTH, WINDOW_HEIGHT, ROOM_COUNT, GAME_TITLE, splash);
 
     return 0;
 }
