@@ -9,12 +9,15 @@
 #include "DungeonLayout.h"
 #include "DungeonMap.h"
 #include "Player.h"
+#include "Weapon.h"
+#include "ItemFactory.h"
+#include "Inventory.h"
 
 namespace gui {
 
     class GameScene {
     public:
-        explicit GameScene(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
+        explicit GameScene(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player, gui::Inventory &_inventory, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
         void display(const std::shared_ptr<game::Room> &currentRoom);
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
@@ -28,6 +31,7 @@ namespace gui {
         std::shared_ptr<game::Player> &player;
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
+        gui::Inventory &inventory;
         std::shared_ptr<game::Room> activeRoom;
         std::vector<Button> buttons;
         sf::Texture background;
@@ -35,6 +39,7 @@ namespace gui {
         sf::Font font;
         sf::RenderWindow &window;
         bool mapIsOpen {false};
+        bool inventoryIsOpen {false};
     };
 
 }

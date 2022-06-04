@@ -182,7 +182,8 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
-    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};
+    gui::Inventory inventory{window};
+    gui::GameScene gamescene{window, player, inventory, dungeonLayout, dungeonMap};
 
     bool finished {false};
     sfm::Menu mainmenu;

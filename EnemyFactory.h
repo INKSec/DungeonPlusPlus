@@ -2,7 +2,6 @@
 #define DUNGEONPLUSPLUS_ENEMYFACTORY_H
 
 #include <memory>
-#include "Enemy.h"
 #include "Spider.h"
 
 namespace game {

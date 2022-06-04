@@ -2,12 +2,14 @@
 #define DUNGEONPLUSPLUS_PLAYER_H
 
 #include "Entity.h"
+#include "Weapon.h"
 
 namespace game {
 
     class Player : public Entity {
     public:
         Player() = default;
+        void equipWeapon(const std::shared_ptr<Weapon> &_weapon);
         std::string getName() const override;
         std::string getSprite() const override;
         int getCurrentHealth() const override;
@@ -18,9 +20,10 @@ namespace game {
     private:
         std::string name {"Player"};
         std::string sprite {"../images/player.png"};
-        int currentHealth {50};
+        int currentHealth {100};
         int maxHealth {100};
-        int attackPower {8};
+        int attackPower {1};
+        std::shared_ptr<Weapon> weapon;
     };
 
 }

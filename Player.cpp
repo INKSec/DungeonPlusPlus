@@ -1,5 +1,10 @@
 #include "Player.h"
 
+void game::Player::equipWeapon(const std::shared_ptr<Weapon> &_weapon) {
+    weapon = _weapon;
+    setAttackPower(weapon->getDamageOutput());
+}
+
 std::string game::Player::getName() const {
     return name;
 }

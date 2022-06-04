@@ -11,11 +11,13 @@
 gui::GameScene::GameScene(
     sf::RenderWindow &_window,
     std::shared_ptr<game::Player> &_player,
+    gui::Inventory &_inventory,
     game::DungeonLayout &_dungeonLayout,
     gui::DungeonMap &_dungeonMap)
     :
     window{_window},
     player{_player},
+    inventory{_inventory},
     dungeonLayout(_dungeonLayout),
     dungeonMap{_dungeonMap}
 {
@@ -40,12 +42,20 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     drawPlayer();
     drawHealthBar();
     buttons.clear();
+
+    // Weapon Testing, remove later!
+    srand(time(NULL));
+    int random = rand() % static_cast<int>(game::ItemFactory::weaponType::End);
+    auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
+    inventory.putItem(weapon);
+
     if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getCurrentHealth() > 0) {
         combatView();
     } else {
         explorationView();
     }
     if(mapIsOpen) dungeonMap.draw(dungeonLayout.getCurrentPosition());
+    if(inventoryIsOpen) inventory.draw();
     window.display();
 }
 
@@ -103,6 +113,16 @@ void gui::GameScene::explorationView() {
         mapIsOpen = !mapIsOpen;
         display(dungeonLayout.getCurrentRoom());
     });
+    buttons.emplace_back(
+            "Inventory", Col3, Row2,
+            BUTTON_WIDTH, BUTTON_HEIGHT,
+            font, BUTTON_FONT_SIZE,
+            (inventoryIsOpen ? BUTTON_TEXT_COLOR : BUTTON_COLOR),
+            (inventoryIsOpen ? BUTTON_COLOR : BUTTON_TEXT_COLOR),
+            [this](){
+                inventoryIsOpen = !inventoryIsOpen;
+                display(dungeonLayout.getCurrentRoom());
+            });
     for(auto &b : buttons) {
         b.render(window);
     }
@@ -179,5 +199,13 @@ void gui::GameScene::setHUD(const std::string &path) {
 }
 
 std::vector<gui::Button> gui::GameScene::getButtons() const {
-    return buttons;
+    if(inventoryIsOpen) {
+        std::vector<Button> allButtons {buttons};
+        for(auto const &b : inventory.getButtons()) {
+            allButtons.push_back(b);
+        }
+        return allButtons;
+    } else {
+        return buttons;
+    }
 }
