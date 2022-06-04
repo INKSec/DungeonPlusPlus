@@ -9,6 +9,9 @@
 #include <string>
 #include <functional>
 #include <SFML/Graphics.hpp>
+#include "GameScene.h"
+#include "DungeonLayout.h"
+#include "DungeonMap.h"
 
 namespace sfm {
 
@@ -56,6 +59,7 @@ namespace sfm {
         void setLayout(const MenuLayout &_style);
         void setTemplateText(const sf::Text &t);
         void setFinished(const bool &_finished);
+        static void buildMenu(sf::RenderWindow&, int, int, int, std::string, sfm::Menu);
     private:
         std::vector<MenuOption> options;
         sf::Texture background;

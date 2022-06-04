@@ -7,9 +7,7 @@ const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50
 const MenuLayout MenuLayout::VerticleLeft		=	MenuLayout(50, sf::Vector2f(0.25, 0.5));
 
 
-////////////////////
 //MenuLayout Methods
-////////////////////
 MenuLayout::MenuLayout(unsigned int spacing, const sf::Vector2f &origin) {
     setSpacing(spacing);
     setOrigin(origin);
@@ -65,9 +63,8 @@ void MenuLayout::apply(std::vector<sf::Text> &options, const sf::Vector2u &windo
 }//end apply
 
 
-//////////////
+
 //Menu Methods
-//////////////
 void Menu::display(sf::RenderWindow &window) {
     sf::Sprite bg;
     bg.setTexture(background);
@@ -168,4 +165,75 @@ void Menu::setTemplateText(const sf::Text &t) {
 
 void Menu::setFinished(const bool &_finished) {
     finished = _finished;
+}
+
+
+void splashScreenCallback() {
+    std::cout << "Hat geklappt\n" << std::endl;
+}
+
+void menuButton2() {
+    std::cout << "Hat geklappt\n" << std::endl;
+}
+void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, std::string GAME_TITLE, sfm::Menu splash) {
+
+
+
+    game::DungeonLayout dungeonLayout;
+    game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
+    gui::DungeonMap dungeonMap{window, rooms};
+    gui::GameScene gamescene{window, dungeonLayout, dungeonMap};
+
+    bool finished {false};
+    sfm::Menu mainmenu;
+
+    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout](){
+        mainmenu.setFinished(true);
+        gamescene.display(dungeonLayout.getCurrentRoom());
+    });
+    mainmenu.addOption(opt);
+    sfm::MenuOption opt2("Optionen", menuButton2);
+    mainmenu.addOption(opt2);
+    sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
+    mainmenu.addOption(opt3);
+    mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
+    mainmenu.setBackground("../images/wald.jpg");
+    sf::Font font;
+    sf::Text text;
+    font.loadFromFile("../fonts/Arial.ttf");
+    text.setFont(font);
+    mainmenu.setTemplateText(text);
+
+    //now create the window and display the menus
+    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), GAME_TITLE);
+    splash.display(window);
+    mainmenu.display(window);
+
+    sf::Clock clock;
+    while(!finished) {
+        sf::Event e{};
+        while(window.pollEvent(e)) {
+            switch(e.type) {
+                case sf::Event::Closed:
+                    finished = true;
+                    break;
+                case sf::Event::MouseButtonReleased:
+                    for(gui::Button &b : gamescene.getButtons()) {
+                        if(b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                            b.clicked();
+                            break;
+                        }
+                    }
+                    break;
+                case sf::Event::KeyPressed:
+                    if(e.key.code == sf::Keyboard::Escape) {
+                        finished = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        sf::sleep(sf::milliseconds(50));
+    }
 }
