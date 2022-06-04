@@ -15,7 +15,7 @@ using namespace std;
 
 
 void splashScreenCallback();
-void menuButton2();
+
 
 int main() {
 
@@ -25,73 +25,20 @@ int main() {
     splash.setTimeout(sf::seconds(2), splashScreenCallback);
     splash.setBackground("../images/Splash.png");
 
-    auto player {make_shared<game::Player>()};
+    /*auto player {make_shared<game::Player>()};
     //create the dungeon rooms
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
-    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};
+    gui::GameScene gamescene{window, player, dungeonLayout, dungeonMap};*/
+
+    sfm::Menu::buildMenu(window, WINDOW_WIDTH, WINDOW_HEIGHT, ROOM_COUNT, GAME_TITLE, splash);
+    //create the dungeon rooms
+
 
     //create the main menu
-    bool finished {false};
-    sfm::Menu mainmenu;
-    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout](){
-        mainmenu.setFinished(true);
-        gamescene.display(dungeonLayout.getCurrentRoom());
-    });
-    mainmenu.addOption(opt);
-    sfm::MenuOption opt2("Optionen", menuButton2);
-    mainmenu.addOption(opt2);
-    sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
-    mainmenu.addOption(opt3);
-    mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
-    mainmenu.setBackground("../images/wald.jpg");
-    sf::Font font;
-    sf::Text text;
-    font.loadFromFile("../fonts/Arial.ttf");
-    text.setFont(font);
-    mainmenu.setTemplateText(text);
 
-    //now create the window and display the menus
-    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), GAME_TITLE);
-    splash.display(window);
-    mainmenu.display(window);
-
-    sf::Clock clock;
-    while(!finished) {
-        sf::Event e{};
-        while(window.pollEvent(e)) {
-            switch(e.type) {
-                case sf::Event::Closed:
-                    finished = true;
-                    break;
-                case sf::Event::MouseButtonReleased:
-                    for(gui::Button &b : gamescene.getButtons()) {
-                        if(b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
-                            b.clicked();
-                            break;
-                        }
-                    }
-                    break;
-                case sf::Event::KeyPressed:
-                    if(e.key.code == sf::Keyboard::Escape) {
-                        finished = true;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        sf::sleep(sf::milliseconds(50));
-    }
 
     return 0;
 }
 
-void splashScreenCallback() {
-    cout << "Hat geklappt\n" << endl;
-}
-
-void menuButton2() {
-    cout << "Hat geklappt\n" << endl;
-}
