@@ -7,7 +7,9 @@ namespace game {
 
     class Player : public Entity {
     public:
-        Player() = default;void equipWeapon(const std::shared_ptr<Weapon> &_weapon);        std::string getName() const override;
+        Player() = default;
+        void equipWeapon(const std::shared_ptr<Weapon> &_weapon);
+        std::string getName() const override;
         std::string getSprite() const override;
         int getCurrentHealth() const override;
         int getMaxHealth() const override;
