@@ -33,3 +33,11 @@ void game::Player::setCurrentHealth(const int &_health) {
 void game::Player::setAttackPower(const int &_attackPower) {
     attackPower = _attackPower;
 }
+
+void game::Player::setPosX(const float &x) {
+    PosX=  x;
+}
+
+float game::Player::getPosX() const {
+    return PosX;
+}

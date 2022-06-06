@@ -28,3 +28,11 @@ void game::Spider::setCurrentHealth(const int &_health) {
 void game::Spider::setAttackPower(const int &_attackPower) {
     attackPower = _attackPower;
 }
+
+float game::Spider::getPosX() const {
+    return 0;
+}
+
+void game::Spider::setPosX(const float &) {
+
+}

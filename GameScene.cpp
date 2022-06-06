@@ -140,6 +140,7 @@ void gui::GameScene::combatView() {
     buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         player->attack(dungeonLayout.getCurrentRoom()->getEnemy());
         dungeonLayout.getCurrentRoom()->getEnemy()->attack(player);
+        //player->setPosX(0.1);
         display(dungeonLayout.getCurrentRoom());
     });
     buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
@@ -150,6 +151,7 @@ void gui::GameScene::combatView() {
         b.render(window);
     }
     drawEnemy();
+
 }
 
 void gui::GameScene::drawEnemy() {
@@ -166,7 +168,7 @@ void gui::GameScene::drawPlayer() {
     sf::Texture texture;
     texture.loadFromFile(player->getSprite());
     sprite.setTexture(texture);
-    sprite.setPosition(window.getSize().x * 0.1f, window.getSize().y * 0.2f);
+    sprite.setPosition(window.getSize().x * player->getPosX(), window.getSize().y * 0.2f);
     window.draw(sprite);
 }
 

@@ -22,6 +22,7 @@ namespace gui {
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
         std::vector<Button> getButtons() const;
+
     private:
         void explorationView();
         void combatView();

@@ -205,7 +205,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     text.setFont(font);
     mainmenu.setTemplateText(text);
 
-    //now create the window and display the menus
+    //create window and display menu
     window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), GAME_TITLE);
     splash.display(window);
     mainmenu.display(window);

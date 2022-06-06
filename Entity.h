@@ -4,6 +4,8 @@
 #include <string>
 #include <memory>
 
+
+
 namespace game {
 
     class Entity {
@@ -16,8 +18,10 @@ namespace game {
         virtual int getCurrentHealth() const = 0;
         virtual int getMaxHealth() const = 0;
         virtual int getAttackPower() const = 0;
+        virtual float getPosX() const = 0;
         virtual void setCurrentHealth(const int &_health) = 0;
         virtual void setAttackPower(const int &_attackPower) = 0;
+        virtual void setPosX(const float&) = 0;
     protected:
         Entity() = default;
     private:
@@ -26,6 +30,7 @@ namespace game {
         int currentHealth;
         int maxHealth;
         int attackPower;
+        float PosX;
     };
 
 }
