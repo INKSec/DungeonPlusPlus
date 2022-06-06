@@ -1,5 +1,9 @@
 #include "GameScene.h"
 #include <iostream>
+#include <random>
+#include <cmath>
+
+
 
 #define BUTTON_WIDTH 200
 #define BUTTON_HEIGHT 50
@@ -140,7 +144,9 @@ void gui::GameScene::combatView() {
     buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         player->attack(dungeonLayout.getCurrentRoom()->getEnemy());
         dungeonLayout.getCurrentRoom()->getEnemy()->attack(player);
-        //player->setPosX(0.1);
+
+        display(dungeonLayout.getCurrentRoom());
+        player->setPosX(0.1);
         display(dungeonLayout.getCurrentRoom());
     });
     buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
@@ -151,6 +157,8 @@ void gui::GameScene::combatView() {
         b.render(window);
     }
     drawEnemy();
+    drawAttackCall();
+
 
 }
 
@@ -211,3 +219,51 @@ std::vector<gui::Button> gui::GameScene::getButtons() const {
         return buttons;
     }
 }
+
+void gui::GameScene::drawAttackCall() {
+    sf::RectangleShape bar;
+    sf::Text text;
+    std::random_device r;
+    std::default_random_engine e1(r());
+    std::uniform_int_distribution<int> uniform_dist(0, 3);
+    int mean = uniform_dist(e1);
+    std::cout << "Randomly-chosen mean: " << mean << '\n';
+
+
+
+
+
+    switch(mean) {
+        case 0:
+            bar.setSize(sf::Vector2f{200, 25});
+            text.setString("Ich greife an!!");
+            break;
+        case 1:
+            bar.setSize(sf::Vector2f{250, 25});
+            text.setString("Ich greife nicht an!!");
+            break;
+        case 2:
+            bar.setSize(sf::Vector2f{200, 25});
+            text.setString("Ich greife doppelt!!");
+            break;
+        case 3:
+            bar.setSize(sf::Vector2f{250, 25});
+            text.setString("Ich greife dreifach an!!");
+            break;
+
+    };
+
+
+    bar.setPosition(window.getSize().x - 1100, window.getSize().y - 750);
+    bar.setFillColor(sf::Color::White);
+    text.setFont(font);
+    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2, bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
+    text.setFillColor(sf::Color::Black);
+    window.draw(bar);
+    window.draw(text);
+
+
+}
+
+
+

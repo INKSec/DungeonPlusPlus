@@ -4,7 +4,6 @@
 
 void game::Entity::attack(const game::Entity::entityPtr &opponent) {
     opponent->setCurrentHealth(opponent->getCurrentHealth() - getAttackPower());
-
     this->setPosX(0.3);
 
     //using namespace std::chrono_literals;

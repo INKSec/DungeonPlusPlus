@@ -29,6 +29,7 @@ namespace gui {
         void drawPlayer();
         void drawEnemy();
         void drawHealthBar();
+        void drawAttackCall();
         std::shared_ptr<game::Player> &player;
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
