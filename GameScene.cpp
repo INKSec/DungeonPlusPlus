@@ -223,32 +223,50 @@ std::vector<gui::Button> gui::GameScene::getButtons() const {
 void gui::GameScene::drawAttackCall() {
     sf::RectangleShape bar;
     sf::Text text;
-    std::random_device r;
-    std::default_random_engine e1(r());
-    std::uniform_int_distribution<int> uniform_dist(0, 3);
-    int mean = uniform_dist(e1);
-    std::cout << "Randomly-chosen mean: " << mean << '\n';
-
-
-
-
+    // Used for Random Number
+    int mean = dungeonLayout.getCurrentPosition();
+    mean = mean % 10;
 
     switch(mean) {
         case 0:
-            bar.setSize(sf::Vector2f{200, 25});
+            bar.setSize(sf::Vector2f{200, 40});
             text.setString("Ich greife an!!");
             break;
         case 1:
-            bar.setSize(sf::Vector2f{250, 25});
-            text.setString("Ich greife nicht an!!");
+            bar.setSize(sf::Vector2f{350, 40});
+            text.setString("Ich habe ein bisschen Angst...");
             break;
         case 2:
-            bar.setSize(sf::Vector2f{200, 25});
-            text.setString("Ich greife doppelt!!");
+            bar.setSize(sf::Vector2f{350, 40});
+            text.setString("Ihhhh, das ist ja ekelhaft!");
             break;
         case 3:
-            bar.setSize(sf::Vector2f{250, 25});
-            text.setString("Ich greife dreifach an!!");
+            bar.setSize(sf::Vector2f{600, 40});
+            text.setString("Ich musste doch gestern erst Kämpfen...");
+            break;
+        case 4:
+            bar.setSize(sf::Vector2f{400, 40});
+            text.setString("Ich glaub mir wird schlecht");
+            break;
+        case 5:
+            bar.setSize(sf::Vector2f{250, 40});
+            text.setString("Uhhh, gruselig");
+            break;
+        case 6:
+            bar.setSize(sf::Vector2f{500, 40});
+            text.setString("Endlich ein ebenbürtiger Gegener!");
+            break;
+        case 7:
+            bar.setSize(sf::Vector2f{450, 40});
+            text.setString("Eigentlich bin ich ja Pazifist");
+            break;
+        case 8:
+            bar.setSize(sf::Vector2f{300, 40});
+            text.setString("Wieder keine Prinzessin...");
+            break;
+        case 9:
+            bar.setSize(sf::Vector2f{450, 40});
+            text.setString("Habe ich den Herd ausgemacht?");
             break;
 
     };
