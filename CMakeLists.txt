@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.21)
 project(DungeonPlusPlus)
 
 set(CMAKE_CXX_STANDARD 14)
-add_subdirectory(game)
-add_executable(DungeonPlusPlus main.cpp MainMenu.cpp GameScene.cpp Button.cpp DungeonMap.cpp Inventory.cpp)
+add_subdirectory(game src)
+add_executable(DungeonPlusPlus src/main.cpp src/MainMenu.cpp src/GameScene.cpp src/Button.cpp src/DungeonMap.cpp src/Inventory.cpp)
 include_directories(headers /usr/include D:/SFML/include)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")

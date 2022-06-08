@@ -22,7 +22,7 @@ namespace game {
     private:
         std::string name {"Player"};
         std::string sprite {"../images/player.png"};
-        int currentHealth {50};
+        int currentHealth {100};
         int maxHealth {100};
         int attackPower {8};
         float PosX {0.1};

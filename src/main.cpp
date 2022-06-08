@@ -1,10 +1,6 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 #include "GameScene.h"
-#include "DungeonLayout.h"
-#include "DungeonMap.h"
-#include "Player.h"
 
 #define GAME_TITLE "DungeonPlusPlus"
 #define WINDOW_WIDTH 1200
