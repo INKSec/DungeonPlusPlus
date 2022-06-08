@@ -1,7 +1,6 @@
 #ifndef DUNGEONPLUSPLUS_ROOM_H
 #define DUNGEONPLUSPLUS_ROOM_H
 
-#include <SFML/Graphics.hpp>
 #include "Enemy.h"
 
 namespace game {

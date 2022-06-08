@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <ctime>
 #include "DungeonLayout.h"
 #include "RoomFactory.h"
 #include "EnemyFactory.h"
