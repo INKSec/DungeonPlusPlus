@@ -3,7 +3,7 @@
 #include "GameScene.h"
 
 #define GAME_TITLE "DungeonPlusPlus"
-#define WINDOW_WIDTH 1200
+#define WINDOW_WIDTH 1300
 #define WINDOW_HEIGHT 800
 #define ROOM_COUNT 20
 

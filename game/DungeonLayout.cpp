@@ -67,7 +67,7 @@ void game::DungeonLayout::addPossiblePositions() {
 // Randomly select one of the currently possible Locations
 void game::DungeonLayout::getRandomNextPosition() {
     auto it {roomPositions.begin()};
-    unsigned int random {rand() % roomPositions.size()};
+    unsigned long long random {rand() % roomPositions.size()};
     std::advance(it, random);
     currentPosition = *it;
 }

@@ -176,7 +176,7 @@ void gui::GameScene::drawPlayer() {
     sf::Texture texture;
     texture.loadFromFile(player->getSprite());
     sprite.setTexture(texture);
-    sprite.setPosition(window.getSize().x * player->getPosX(), window.getSize().y * 0.2f);
+    sprite.setPosition(static_cast<float>(window.getSize().x * player->getPosX()), static_cast<float>(window.getSize().y * 0.2f));
     window.draw(sprite);
 }
 
@@ -207,7 +207,7 @@ void gui::GameScene::setBackground(const std::string &path) {
 void gui::GameScene::setHUD(const std::string &path) {
     hud.loadFromFile(path);
 }
-
+// Was ist das?
 std::vector<gui::Button> gui::GameScene::getButtons() const {
     if(inventoryIsOpen) {
         std::vector<Button> allButtons {buttons};
@@ -224,9 +224,7 @@ void gui::GameScene::drawAttackCall() {
     sf::RectangleShape bar;
     sf::Text text;
     // Used for Random Number
-    int mean = dungeonLayout.getCurrentPosition();
-    mean = mean % 10;
-
+    int mean = {rand() % 20};
     switch(mean) {
         case 0:
             bar.setSize(sf::Vector2f{200, 40});
@@ -242,7 +240,7 @@ void gui::GameScene::drawAttackCall() {
             break;
         case 3:
             bar.setSize(sf::Vector2f{600, 40});
-            text.setString("Ich musste doch gestern erst Kämpfen...");
+            text.setString("Ich musste doch gestern erst Kaempfen...");
             break;
         case 4:
             bar.setSize(sf::Vector2f{400, 40});
@@ -254,7 +252,7 @@ void gui::GameScene::drawAttackCall() {
             break;
         case 6:
             bar.setSize(sf::Vector2f{500, 40});
-            text.setString("Endlich ein ebenbürtiger Gegener!");
+            text.setString("Endlich ein ebenbuertiger Gegener!");
             break;
         case 7:
             bar.setSize(sf::Vector2f{450, 40});
@@ -268,19 +266,20 @@ void gui::GameScene::drawAttackCall() {
             bar.setSize(sf::Vector2f{450, 40});
             text.setString("Habe ich den Herd ausgemacht?");
             break;
+        default:
+            // to avoid Clang Tidy
+            break;
 
     };
-
-
-    bar.setPosition(window.getSize().x - 1100, window.getSize().y - 750);
+    bar.setPosition(static_cast<float>(window.getSize().x - 1100), static_cast<float>(window.getSize().y - 750));
     bar.setFillColor(sf::Color::White);
+    bar.setOutlineThickness(3);
+    bar.setOutlineColor(sf::Color::Red);
     text.setFont(font);
     text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2, bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
     text.setFillColor(sf::Color::Black);
     window.draw(bar);
     window.draw(text);
-
-
 }
 
 
