@@ -4,13 +4,42 @@
 
 void game::Entity::attack(const game::Entity::entityPtr &opponent) {
     opponent->setCurrentHealth(opponent->getCurrentHealth() - getAttackPower());
-    this->setPosX(0.3);
-
-    //using namespace std::chrono_literals;
-    //std::this_thread::sleep_for(1s);
+    this->setPosX(getPosXAttack());
 
 
 
+
+
+
+
+}
+
+void game::Entity::setPosXIdle(const float &_posXidle) {
+    posXIdle = _posXidle;
+}
+
+float game::Entity::getPosXIdle() const {
+    return posXIdle;
+}
+
+float game::Entity::getPosX() const {
+    return posX;
+}
+
+void game::Entity::setPosX(float _posX) {
+    posX = _posX;
+}
+
+float game::Entity::getPosXAttack() const {
+    return posXAttack;
+}
+
+void game::Entity::setPosXAttack(const float &_posXAttack) {
+    posXAttack = _posXAttack;
+}
+
+float game::Entity::getPosXDamaged() const {
+    return posXDamage;
 }
 
 

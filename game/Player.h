@@ -7,17 +7,15 @@ namespace game {
 
     class Player : public Entity {
     public:
-        Player() = default;
+        explicit Player();
         void equipWeapon(const std::shared_ptr<Weapon> &_weapon);
         std::string getName() const override;
         std::string getSprite() const override;
         int getCurrentHealth() const override;
         int getMaxHealth() const override;
         int getAttackPower() const override;
-        float getPosX() const override;
         void setCurrentHealth(const int &_health) override;
         void setAttackPower(const int &_attackPower) override;
-        void setPosX(const float&) override;
 
     private:
         std::string name {"Player"};
@@ -25,7 +23,9 @@ namespace game {
         int currentHealth {100};
         int maxHealth {100};
         int attackPower {8};
-        float PosX {0.1};
+
+
+
         std::shared_ptr<Weapon> weapon;};
 
 }

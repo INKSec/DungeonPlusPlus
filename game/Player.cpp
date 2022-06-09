@@ -1,5 +1,11 @@
 #include "Player.h"
 
+game::Player::Player() {
+    posXIdle = 0.1;
+    posX = posXIdle;
+    posXAttack =0.3;
+}
+
 void game::Player::equipWeapon(const std::shared_ptr<Weapon> &_weapon) {
     weapon = _weapon;
     setAttackPower(weapon->getDamageOutput());
@@ -34,10 +40,6 @@ void game::Player::setAttackPower(const int &_attackPower) {
     attackPower = _attackPower;
 }
 
-void game::Player::setPosX(const float &x) {
-    PosX=  x;
-}
 
-float game::Player::getPosX() const {
-    return PosX;
-}
+
+

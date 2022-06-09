@@ -18,3 +18,6 @@ namespace game {
 }
 
 #endif //DUNGEONPLUSPLUS_ITEMFACTORY_H
+// Eventfactory
+// Kampf aufbessern
+// optionen

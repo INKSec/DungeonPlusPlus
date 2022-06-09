@@ -8,7 +8,7 @@ namespace game {
     class Enemy : public Entity {
     public:
     protected:
-        Enemy() = default;
+        explicit Enemy();
     };
 
 }

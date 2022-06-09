@@ -2,7 +2,8 @@
 #include <iostream>
 #include <random>
 #include <cmath>
-
+#include <thread>
+#include <chrono>
 
 
 #define BUTTON_WIDTH 200
@@ -23,10 +24,12 @@ gui::GameScene::GameScene(
     player{_player},
     inventory{_inventory},
     dungeonLayout(_dungeonLayout),
-    dungeonMap{_dungeonMap}
+    dungeonMap{_dungeonMap},
+    enemy{nullptr}
 {
     font.loadFromFile("../fonts/Arial.ttf");
     setHUD("../images/hud.jpg");
+
 }
 
 // Draw all graphical elements in the scene and display them
@@ -54,6 +57,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     inventory.putItem(weapon);
 
     if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getCurrentHealth() > 0) {
+        setEnemy(currentRoom->getEnemy());
         combatView();
     } else {
         explorationView();
@@ -71,7 +75,8 @@ void gui::GameScene::explorationView() {
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
     std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
-    buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font,
+                         BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() + 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -80,7 +85,8 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further north." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go East", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go East", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font,
+                         BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() + 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -89,7 +95,8 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further east." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go West", Col1, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go West", Col1, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font,
+                         BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() - 1};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -98,7 +105,9 @@ void gui::GameScene::explorationView() {
             std::cerr << "Couldn't move further west." << dungeonLayout.getCurrentPosition() << std::endl;
         }
     });
-    buttons.emplace_back("Go South", Col2, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+    buttons.emplace_back("Go South", Col2, Row2, BUTTON_WIDTH, BUTTON_HEIGHT, font,
+                         BUTTON_FONT_SIZE,
+                         BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() - 10};
         if(dungeonLayout.getDungeonMap().count(newPosition)) {
             dungeonLayout.setCurrentPosition(newPosition);
@@ -141,15 +150,41 @@ void gui::GameScene::combatView() {
     const unsigned int Col3 {550};
     mapIsOpen = false;
     std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
-    buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
-        player->attack(dungeonLayout.getCurrentRoom()->getEnemy());
-        dungeonLayout.getCurrentRoom()->getEnemy()->attack(player);
+    buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH,
+                         BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR,
+                         BUTTON_TEXT_COLOR,
+                         [this](){
+        player->attack(getEnemy());
 
         display(dungeonLayout.getCurrentRoom());
-        player->setPosX(0.1);
+        std::this_thread::sleep_for (std::chrono::milliseconds (200));
+        getEnemy()->setPosX(getEnemy()->getPosXDamaged());
+        player->setPosX(player->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
+        std::this_thread::sleep_for (std::chrono::milliseconds (400));
+        getEnemy()->setPosX(getEnemy()->getPosXIdle());
+        display(dungeonLayout.getCurrentRoom());
+        std::this_thread::sleep_for (std::chrono::milliseconds (800));
+        //std::this_thread::sleep_for (std::chrono::seconds(1));
+        getEnemy()->attack(player);
+
+        display(dungeonLayout.getCurrentRoom());
+        std::this_thread::sleep_for (std::chrono::milliseconds (200));
+        player->setPosX(player->getPosXDamaged());
+        getEnemy()->setPosX(getEnemy()->getPosXIdle());
+        display(dungeonLayout.getCurrentRoom());
+        std::this_thread::sleep_for (std::chrono::milliseconds (200));
+        player->setPosX(player->getPosXIdle());
+        display(dungeonLayout.getCurrentRoom());
+
+
     });
-    buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
+
+
+    buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font,
+                         BUTTON_FONT_SIZE, BUTTON_COLOR,
+                         BUTTON_TEXT_COLOR,
+                         [this](){
         dungeonLayout.setCurrentPosition(dungeonLayout.getPreviousPosition());
         display(dungeonLayout.getCurrentRoom());
     });
@@ -167,7 +202,8 @@ void gui::GameScene::drawEnemy() {
     sf::Texture texture;
     texture.loadFromFile(dungeonLayout.getCurrentRoom()->getEnemy()->getSprite());
     sprite.setTexture(texture);
-    sprite.setPosition(window.getSize().x * 0.5f, window.getSize().y * 0.45f);
+    sprite.setPosition(window.getSize().x * dungeonLayout.getCurrentRoom()->getEnemy()->getPosX(),
+                       window.getSize().y * 0.45f);
     window.draw(sprite);
 }
 
@@ -176,7 +212,7 @@ void gui::GameScene::drawPlayer() {
     sf::Texture texture;
     texture.loadFromFile(player->getSprite());
     sprite.setTexture(texture);
-    sprite.setPosition(static_cast<float>(window.getSize().x * player->getPosX()), static_cast<float>(window.getSize().y * 0.2f));
+    sprite.setPosition(window.getSize().x * player->getPosX(), static_cast<float>(window.getSize().y * 0.2f));
     window.draw(sprite);
 }
 
@@ -186,13 +222,16 @@ void gui::GameScene::drawHealthBar() {
     bar.setSize(sf::Vector2f{300, 50});
     bar.setPosition(window.getSize().x - 350, ROW1);
     bar.setFillColor(sf::Color::Black);
-    health.setSize(sf::Vector2f{290.f * (static_cast<float>(player->getCurrentHealth()) / (static_cast<float>(player->getMaxHealth()))), 40});
+    health.setSize(sf::Vector2f{290.f * (static_cast<float>(player->getCurrentHealth()) /
+    (static_cast<float>(player->getMaxHealth()))), 40});
+
     health.setPosition(bar.getPosition().x + 5, bar.getPosition().y + 5);
     health.setFillColor(sf::Color::Red);
     text.setFont(font);
     text.setString(std::to_string(player->getCurrentHealth()) + "/" + std::to_string(player->getMaxHealth()));
     text.setCharacterSize(16);
-    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2, bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
+    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2,
+                     bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
     text.setFillColor(sf::Color::White);
     window.draw(bar);
     window.draw(health);
@@ -207,7 +246,7 @@ void gui::GameScene::setBackground(const std::string &path) {
 void gui::GameScene::setHUD(const std::string &path) {
     hud.loadFromFile(path);
 }
-// Was ist das?
+
 std::vector<gui::Button> gui::GameScene::getButtons() const {
     if(inventoryIsOpen) {
         std::vector<Button> allButtons {buttons};
@@ -276,10 +315,19 @@ void gui::GameScene::drawAttackCall() {
     bar.setOutlineThickness(3);
     bar.setOutlineColor(sf::Color::Red);
     text.setFont(font);
-    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2, bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
+    text.setPosition(bar.getPosition().x + bar.getGlobalBounds().width / 2 - text.getGlobalBounds().width / 2,
+                     bar.getPosition().y + bar.getGlobalBounds().height / 2 - text.getGlobalBounds().height / 1.5f);
     text.setFillColor(sf::Color::Black);
     window.draw(bar);
     window.draw(text);
+}
+
+std::shared_ptr<game::Enemy> gui::GameScene::getEnemy() const {
+    return enemy;
+}
+
+void gui::GameScene::setEnemy(const std::shared_ptr<game::Enemy> _enemy) {
+    enemy = _enemy;
 }
 
 

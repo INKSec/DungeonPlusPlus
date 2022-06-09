@@ -22,6 +22,8 @@ namespace gui {
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
         std::vector<Button> getButtons() const;
+        std::shared_ptr<game::Enemy> getEnemy() const;
+        void setEnemy(const std::shared_ptr<game::Enemy> );
 
     private:
         void explorationView();
@@ -31,6 +33,7 @@ namespace gui {
         void drawHealthBar();
         void drawAttackCall();
         std::shared_ptr<game::Player> &player;
+        std::shared_ptr<game::Enemy> enemy;
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
         gui::Inventory &inventory;
