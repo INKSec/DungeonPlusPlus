@@ -6,15 +6,16 @@ std::shared_ptr<game::Weapon> game::ItemFactory::generateWeapon(const game::Item
 
     switch(type) {
         case weaponType::Sword:
-            weapon = std::make_shared<Weapon>("Sword", 5, 95);
+            weapon = std::make_shared<Weapon>("Sword", 6, 95);
             break;
         case weaponType::Axe:
-            weapon = std::make_shared<Weapon>("Axe", 7, 80);
+            weapon = std::make_shared<Weapon>("Axe", 8, 80);
             break;
         case weaponType::Warhammer:
-            weapon = std::make_shared<Weapon>("Warhammer", 9, 65);
+            weapon = std::make_shared<Weapon>("Warhammer", 10, 60);
             break;
-        case weaponType::End:
+        case weaponType::Dagger:
+            weapon = std::make_shared<Weapon>("Dagger", 4, 85);
             break;
     }
 

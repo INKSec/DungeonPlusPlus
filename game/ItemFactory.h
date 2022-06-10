@@ -9,7 +9,7 @@ namespace game {
 
     class ItemFactory {
     public:
-        enum class weaponType {Sword, Axe, Warhammer, End};
+        enum class weaponType {Sword, Axe, Warhammer, Dagger};
         enum class consumableType {Potion, End};
         static std::shared_ptr<Weapon> generateWeapon(const weaponType &type);
         static std::shared_ptr<Consumable> generateConsumable(const consumableType &type);

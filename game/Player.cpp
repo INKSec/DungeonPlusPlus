@@ -1,46 +1,26 @@
 #include "Player.h"
 
 game::Player::Player() {
+    name = "Player";
+    sprite = "../images/player.png";
+    maxHealth = 100;
+    currentHealth = 100;
+    attackPower = 1;
+    accuracy = 50;
     posXIdle = 0.1;
-    posX = posXIdle;
     posXAttack =0.3;
     posXDamage = 0.05;
+    posX = posXIdle;
 }
 
 void game::Player::equipWeapon(const std::shared_ptr<Weapon> &_weapon) {
     weapon = _weapon;
     setAttackPower(weapon->getDamageOutput());
+    setAccuracy(weapon->getAccuracy());
 }
 
-std::string game::Player::getName() const {
-    return name;
+std::shared_ptr<game::Weapon> game::Player::getEquippedWeapon() const {
+    return weapon;
 }
-
-std::string game::Player::getSprite() const {
-    return sprite;
-}
-
-int game::Player::getCurrentHealth() const {
-    return currentHealth;
-}
-
-int game::Player::getMaxHealth() const {
-    return maxHealth;
-}
-
-int game::Player::getAttackPower() const {
-    return attackPower;
-}
-
-void game::Player::setCurrentHealth(const int &_health) {
-    currentHealth = _health;
-    if(currentHealth < 0) currentHealth = 0;
-}
-
-void game::Player::setAttackPower(const int &_attackPower) {
-    attackPower = _attackPower;
-}
-
-
 
 

@@ -4,8 +4,6 @@
 #include <string>
 #include <memory>
 
-
-
 namespace game {
 
     class Entity {
@@ -13,39 +11,33 @@ namespace game {
         virtual ~Entity() = default;
         using entityPtr = std::shared_ptr<Entity>;
         virtual void attack(const entityPtr &opponent);
-        virtual std::string getName() const = 0;
-        virtual std::string getSprite() const = 0;
-        virtual int getCurrentHealth() const = 0;
-        virtual int getMaxHealth() const = 0;
-        virtual int getAttackPower() const = 0;
+        virtual std::string getName() const;
+        virtual std::string getSprite() const;
+        virtual int getCurrentHealth() const;
+        virtual int getMaxHealth() const;
+        virtual int getAttackPower() const;
+        virtual int getAccuracy() const;
+        virtual float getPosX() const;
         virtual float getPosXIdle() const;
         virtual float getPosXAttack() const;
-        virtual float getPosX() const;
         virtual float getPosXDamaged() const;
-        virtual void setCurrentHealth(const int &_health) = 0;
-        virtual void setAttackPower(const int &_attackPower) = 0;
-        virtual void setPosXIdle(const float&_posXidle);
-        virtual void setPosXAttack(const float &_posXAttack);
-
-
+        virtual void setCurrentHealth(const int &_health);
+        virtual void setAttackPower(const int &_attackPower);
+        virtual void setAccuracy(const int &_accuracy);
         virtual void setPosX(float _posX);
 
     protected:
         Entity() = default;
-        float posXIdle;
         float posX;
+        float posXIdle;
         float posXAttack;
         float posXDamage;
-
-
-
-    private:
         std::string name;
         std::string sprite;
         int currentHealth;
         int maxHealth;
         int attackPower;
-
+        int accuracy;
     };
 
 }

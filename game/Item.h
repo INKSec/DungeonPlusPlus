@@ -7,8 +7,10 @@ namespace game {
 
     class Item {
     public:
+        enum class ItemType {Weapon, Consumable};
         virtual ~Item() = default;
         virtual std::string getName() const;
+        ItemType itemType;
     protected:
         Item() = default;
         std::string name;

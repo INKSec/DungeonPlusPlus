@@ -202,7 +202,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
-    gui::Inventory inventory{window};
+    gui::Inventory inventory{window, player};
     gui::GameScene gamescene{window, player, inventory, dungeonLayout, dungeonMap};
     Optionen::Options optionsScreen(window);
 

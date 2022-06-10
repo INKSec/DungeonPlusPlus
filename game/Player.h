@@ -9,24 +9,10 @@ namespace game {
     public:
         explicit Player();
         void equipWeapon(const std::shared_ptr<Weapon> &_weapon);
-        std::string getName() const override;
-        std::string getSprite() const override;
-        int getCurrentHealth() const override;
-        int getMaxHealth() const override;
-        int getAttackPower() const override;
-        void setCurrentHealth(const int &_health) override;
-        void setAttackPower(const int &_attackPower) override;
-
+        std::shared_ptr<Weapon> getEquippedWeapon() const;
     private:
-        std::string name {"Player"};
-        std::string sprite {"../images/player.png"};
-        int currentHealth {100};
-        int maxHealth {100};
-        int attackPower {8};
-
-
-
-        std::shared_ptr<Weapon> weapon;};
+        std::shared_ptr<Weapon> weapon;
+    };
 
 }
 

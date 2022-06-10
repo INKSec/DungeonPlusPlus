@@ -15,15 +15,18 @@
 
 namespace gui {
 
+    class Inventory;
+
     class GameScene {
     public:
         explicit GameScene(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player, gui::Inventory &_inventory, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
         void display(const std::shared_ptr<game::Room> &currentRoom);
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);
+        void setEnemy(const std::shared_ptr<game::Enemy> &_enemy);
         std::vector<Button> getButtons() const;
         std::shared_ptr<game::Enemy> getEnemy() const;
-        void setEnemy(const std::shared_ptr<game::Enemy>& );
+        game::DungeonLayout& getDungeonLayout() const;
 
     private:
         void explorationView();
@@ -37,7 +40,6 @@ namespace gui {
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
         gui::Inventory &inventory;
-        std::shared_ptr<game::Room> activeRoom;
         std::vector<Button> buttons;
         sf::Texture background;
         sf::Texture hud;

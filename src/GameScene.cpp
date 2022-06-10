@@ -50,20 +50,16 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     drawHealthBar();
     buttons.clear();
 
-    // Weapon Testing, remove later!
-    srand(time(nullptr));
-    int random = rand() % static_cast<int>(game::ItemFactory::weaponType::End);
-    auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
-    inventory.putItem(weapon);
-
     if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getCurrentHealth() > 0) {
         setEnemy(currentRoom->getEnemy());
         combatView();
     } else {
         explorationView();
     }
+
     if(mapIsOpen) dungeonMap.draw(dungeonLayout.getCurrentPosition());
-    if(inventoryIsOpen) inventory.draw();
+    if(inventoryIsOpen) inventory.draw(*this);
+
     window.display();
 }
 
@@ -74,7 +70,6 @@ void gui::GameScene::explorationView() {
     const unsigned int Col1 {50};
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
-    std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
     buttons.emplace_back("Go North", Col1, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font,
                          BUTTON_FONT_SIZE, BUTTON_COLOR, BUTTON_TEXT_COLOR, [this](){
         const int newPosition = {dungeonLayout.getCurrentPosition() + 10};
@@ -149,7 +144,7 @@ void gui::GameScene::combatView() {
     const unsigned int Col2 {300};
     const unsigned int Col3 {550};
     mapIsOpen = false;
-    std::cout << "Current Position: " << dungeonLayout.getCurrentPosition() << std::endl;
+    inventoryIsOpen = false;
     buttons.emplace_back("Attack", Col1, Row1, BUTTON_WIDTH,
                          BUTTON_HEIGHT, font, BUTTON_FONT_SIZE, BUTTON_COLOR,
                          BUTTON_TEXT_COLOR,
@@ -170,23 +165,29 @@ void gui::GameScene::combatView() {
         getEnemy()->setPosX(getEnemy()->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
 
-        // delay before enemy attacks
-        std::this_thread::sleep_for (std::chrono::milliseconds (1000));
-        getEnemy()->attack(player);
-        display(dungeonLayout.getCurrentRoom());
+        // Enemy attacks back if not dead
+        if(getEnemy()->getCurrentHealth() > 0) {
+            // delay before enemy attacks
+            std::this_thread::sleep_for (std::chrono::milliseconds (1000));
+            getEnemy()->attack(player);
+            display(dungeonLayout.getCurrentRoom());
 
-        // delay while enemy is in attack position, player in idle
-        std::this_thread::sleep_for (std::chrono::milliseconds (200));
-        player->setPosX(player->getPosXDamaged());
-        getEnemy()->setPosX(getEnemy()->getPosXIdle());
-        display(dungeonLayout.getCurrentRoom());
+            // delay while enemy is in attack position, player in idle
+            std::this_thread::sleep_for (std::chrono::milliseconds (200));
+            player->setPosX(player->getPosXDamaged());
+            getEnemy()->setPosX(getEnemy()->getPosXIdle());
+            display(dungeonLayout.getCurrentRoom());
 
-        // delay while player is in damage position
-        std::this_thread::sleep_for (std::chrono::milliseconds (300));
-        player->setPosX(player->getPosXIdle());
-        display(dungeonLayout.getCurrentRoom());
+            // delay while player is in damage position
+            std::this_thread::sleep_for (std::chrono::milliseconds (300));
+            player->setPosX(player->getPosXIdle());
+            display(dungeonLayout.getCurrentRoom());
+        } else {
+            int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
+            auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
+            inventory.putItem(weapon);
+        }
     });
-
 
     buttons.emplace_back("Retreat", Col2, Row1, BUTTON_WIDTH, BUTTON_HEIGHT, font,
                          BUTTON_FONT_SIZE, BUTTON_COLOR,
@@ -198,10 +199,9 @@ void gui::GameScene::combatView() {
     for(auto &b : buttons) {
         b.render(window);
     }
+
     drawEnemy();
     drawAttackCall();
-
-
 }
 
 void gui::GameScene::drawEnemy() {
@@ -243,27 +243,6 @@ void gui::GameScene::drawHealthBar() {
     window.draw(bar);
     window.draw(health);
     window.draw(text);
-}
-
-
-void gui::GameScene::setBackground(const std::string &path) {
-    background.loadFromFile(path);
-}
-
-void gui::GameScene::setHUD(const std::string &path) {
-    hud.loadFromFile(path);
-}
-
-std::vector<gui::Button> gui::GameScene::getButtons() const {
-    if(inventoryIsOpen) {
-        std::vector<Button> allButtons {buttons};
-        for(auto const &b : inventory.getButtons()) {
-            allButtons.push_back(b);
-        }
-        return allButtons;
-    } else {
-        return buttons;
-    }
 }
 
 void gui::GameScene::drawAttackCall() {
@@ -329,13 +308,33 @@ void gui::GameScene::drawAttackCall() {
     window.draw(text);
 }
 
-std::shared_ptr<game::Enemy> gui::GameScene::getEnemy() const {
-    return enemy;
+void gui::GameScene::setBackground(const std::string &path) {
+    background.loadFromFile(path);
+}
+
+void gui::GameScene::setHUD(const std::string &path) {
+    hud.loadFromFile(path);
 }
 
 void gui::GameScene::setEnemy(const std::shared_ptr<game::Enemy>& _enemy) {
     enemy = _enemy;
 }
 
+std::vector<gui::Button> gui::GameScene::getButtons() const {
+    if(inventoryIsOpen) {
+        std::vector<Button> allButtons {buttons};
+        for(auto const &b : inventory.getButtons()) {
+            allButtons.push_back(b);
+        }
+        return allButtons;
+    } else {
+        return buttons;
+    }
+}
 
-
+std::shared_ptr<game::Enemy> gui::GameScene::getEnemy() const {
+    return enemy;
+}
+game::DungeonLayout& gui::GameScene::getDungeonLayout() const {
+    return dungeonLayout;
+}
