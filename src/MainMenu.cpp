@@ -55,7 +55,7 @@ void MenuLayout::apply(std::vector<sf::Text> &options, const sf::Vector2u &windo
 
     for(sf::Text &text : options) { //use reference to update the position
         sf::FloatRect rect = text.getLocalBounds();
-        //center text origin on the middle of the text
+        //center text origin in the middle of the text
         text.setOrigin(rect.left + rect.width/2.0f,
                        rect.top + rect.height/2.0f);
         text.setPosition(orig); //set option position on the screen
@@ -67,10 +67,10 @@ void MenuLayout::apply(std::vector<sf::Text> &options, const sf::Vector2u &windo
 
 //Menu Methods
 void Menu::display(sf::RenderWindow &window) {
-    sf::Sprite bg;
-    bg.setTexture(background);
-    bg.setScale(window.getSize().x / (float)background.getSize().x,
-                window.getSize().y / (float)background.getSize().y);
+    sf::Sprite backg;
+    backg.setTexture(background);
+    backg.setScale(static_cast<float>(window.getSize().x) / (float)background.getSize().x,
+                static_cast<float>(window.getSize().y) / (float)background.getSize().y);
     std::vector<sf::Text> texts;
     sf::Text text = this->templateText;
     for(const auto &o : options) {
@@ -79,7 +79,7 @@ void Menu::display(sf::RenderWindow &window) {
     }
 
     window.clear();
-    window.draw(bg); //draw background
+    window.draw(backg); //draw background
     layout.apply(texts, window.getSize()); //apply the layout on the options
     for(auto &t : texts) { //draw the options
         window.draw(t);
@@ -100,7 +100,7 @@ void Menu::display(sf::RenderWindow &window) {
                 case sf::Event::Resized:
                 case sf::Event::GainedFocus:
                     window.clear();
-                    window.draw(bg); //draw background
+                    window.draw(backg); //draw background
                     for(auto &t : texts) {
                         window.draw(t);
                     }
@@ -118,15 +118,15 @@ void Menu::display(sf::RenderWindow &window) {
                 default:
                     break;
             }
-        }//end while(window.pollEvent(e))
+        }
         sf::sleep(sf::milliseconds(50));
         if(timeout > sf::seconds(0.0) && clock.getElapsedTime() >= timeout) {
             //this menu has a timeout and we have reached it
             finished = true;
             if(timeoutCallback) { timeoutCallback(); }
         }
-    }//end while(!finished)
-}//end display
+    }
+}
 
 
 void Menu::addOption(const MenuOption &option) {
@@ -173,9 +173,7 @@ void splashScreenCallback() {
 
 };
 
-void menuButton2() {
-    std::cout << "Hat geklappt\n" << std::endl;
-}
+
 void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
 
 
@@ -185,6 +183,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     gui::DungeonMap dungeonMap{window, rooms};
     gui::Inventory inventory{window};
     gui::GameScene gamescene{window, player, inventory, dungeonLayout, dungeonMap};
+    Optionen::Options optionsScreen(window);
 
     bool finished {false};
     sfm::Menu mainmenu;
@@ -194,7 +193,11 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
         gamescene.display(dungeonLayout.getCurrentRoom());
     });
     mainmenu.addOption(opt);
-    sfm::MenuOption opt2("Optionen", menuButton2);
+    //sfm::MenuOption opt2("Optionen", menuButton2);
+    sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen](){
+        mainmenu.setFinished("true");
+        optionsScreen.draw();
+    });
     mainmenu.addOption(opt2);
     sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
     mainmenu.addOption(opt3);

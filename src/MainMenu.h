@@ -12,6 +12,7 @@
 #include "GameScene.h"
 #include "DungeonLayout.h"
 #include "DungeonMap.h"
+#include "Options.h"
 
 namespace sfm {
 

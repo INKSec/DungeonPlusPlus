@@ -51,7 +51,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     buttons.clear();
 
     // Weapon Testing, remove later!
-    srand(time(NULL));
+    srand(time(nullptr));
     int random = rand() % static_cast<int>(game::ItemFactory::weaponType::End);
     auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
     inventory.putItem(weapon);
