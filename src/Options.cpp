@@ -24,14 +24,14 @@ void Optionen::Options::draw() {
     buttons.clear();
     std::ifstream Datei;
     std::vector<std::string> texts;
-    std::string s;
+    std::string tempS;
     try {
         Datei.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         Datei.open("../ConfigIni.txt");
         while (!Datei.eof()) {
             for(size_t i = 0; i<4; i++) {
-                Datei >> s;
-                texts.push_back(s);
+                Datei >> tempS;
+                texts.push_back(tempS);
             }
         }
 

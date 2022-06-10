@@ -4,6 +4,26 @@
 
 using namespace sfm;
 
+// Menu Options
+MenuOption::MenuOption(std::string text, std::function<void(void)> callback)
+:text(std::move(text)), callback(std::move(callback)) { }
+
+void MenuOption::select() {
+    if(callback) {callback();}
+}
+
+void MenuOption::setText(const std::string &_text) {
+    text = _text;
+}
+
+const std::string &MenuOption::getText() const {
+    return text;
+}
+
+
+
+
+
 const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50, 0.5));
 const MenuLayout MenuLayout::VerticleLeft		=	MenuLayout(50, sf::Vector2f(0.25, 0.5));
 
@@ -87,7 +107,7 @@ void Menu::display(sf::RenderWindow &window) {
     window.display();
 
     int i;
-    sf::Vector2i mousePos;
+
     sf::Clock clock;
     while(!finished) {
         sf::Event e{};
@@ -108,7 +128,8 @@ void Menu::display(sf::RenderWindow &window) {
                     break;
                 case sf::Event::MouseButtonReleased:
                     for(i = 0; i < texts.size(); i++) {
-                        if(texts[i].getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                        if(texts[i].getGlobalBounds().contains(static_cast<float>(e.mouseButton.x),
+                                                               static_cast<float>(e.mouseButton.y))) {
                             //this option was clicked
                             options[i].select();
                             break;

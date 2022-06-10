@@ -18,12 +18,11 @@ namespace sfm {
 
     class MenuOption {
     public:
-        explicit MenuOption(std::string text = "",
-                   std::function<void(void)> callback = nullptr)
-                :text(std::move(text)), callback(std::move(callback)) { }
-        void select() { if(callback) {callback();} }
-        void setText(const std::string &text) { this->text = text; }
-        const std::string &getText() const { return text; }
+
+        explicit MenuOption(std::string, std::function<void(void)>);
+        void select();
+        void setText(const std::string &_text);
+        const std::string &getText() const;
         void setCallback(std::function<void(void)> callback) {
             this->callback = std::move(callback);
         }
