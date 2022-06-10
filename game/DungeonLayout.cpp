@@ -13,7 +13,7 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
     rooms.emplace_back(RoomFactory::generateRoom(RoomFactory::roomType::Entrance));
 
     // Randomly generate Rooms of different Types (other than Entrance)
-    srand(time(NULL));
+    srand(time(nullptr));
     for(int i = 1; i < roomCount; i++) {
         type = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
         rooms.emplace_back(RoomFactory::generateRoom(type));

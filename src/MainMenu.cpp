@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include "MainMenu.h"
 
 using namespace sfm;
@@ -40,13 +41,13 @@ void MenuLayout::apply(std::vector<sf::Text> &options, const sf::Vector2u &windo
     if(options.empty()) { return; } //no options, do nothing
 
     sf::Vector2f orig; //origin position in pixels, instead of percentages
-    orig.x = windowSize.x * this->origin.x;
-    orig.y = windowSize.y * this->origin.y;
+    orig.x = static_cast<float>(windowSize.x) * this->origin.x;
+    orig.y = static_cast<float>(windowSize.y) * this->origin.y;
     //since we have n number of options, calculate where the first one will go
-    int n = options.size();
+    int n = static_cast<int>(options.size());
     auto osize = options[0].getGlobalBounds(); //assume all options are the same height
     if(n % 2) { //odd number of options
-        orig.y = orig.y - (int)(n / 2) * (osize.height + spacing);
+        orig.y = orig.y - static_cast<float>((n / 2)) * (osize.height + static_cast<float>(spacing));
     }
     else { //even number of options
         orig.y = orig.y - (spacing/2.0f) - (osize.height/2.0f) - (n/2 - 1)*(spacing+osize.height);
@@ -130,38 +131,38 @@ void Menu::display(sf::RenderWindow &window) {
 
 void Menu::addOption(const MenuOption &option) {
     options.push_back(option);
-}//end addOption
+}
 
 
 void Menu::clearOptions() {
     options.clear();
-}//end clearOptions
+}
 
 
 void Menu::setBackground(const std::string &path) {
     background.loadFromFile(path);
-}//end setBackground
+}
 
 
 void Menu::setTimeout(sf::Time timeout, std::function<void(void)> callback) {
     this->timeout = timeout;
-    this->timeoutCallback = callback;
-}//end setTimeout
+    this->timeoutCallback = std::move(callback);
+}
 
 
 void Menu::setExitCallback(std::function<void(void)> callback) {
-    exitCallback = callback;
-}//end setExitCallback
+    exitCallback = std::move(callback);
+}
 
 
 void Menu::setLayout(const MenuLayout &_layout) {
     layout = _layout;
-}//end setLayout
+}
 
 
 void Menu::setTemplateText(const sf::Text &t) {
     templateText = t;
-}//end setTemplateText
+}
 
 void Menu::setFinished(const bool &_finished) {
     finished = _finished;
@@ -169,13 +170,13 @@ void Menu::setFinished(const bool &_finished) {
 
 
 void splashScreenCallback() {
-    std::cout << "Hat geklappt\n" << std::endl;
-}
+
+};
 
 void menuButton2() {
     std::cout << "Hat geklappt\n" << std::endl;
 }
-void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, std::string GAME_TITLE, sfm::Menu splash) {
+void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
 
 
     auto player {std::make_shared<game::Player>()};
@@ -198,7 +199,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
     mainmenu.addOption(opt3);
     mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
-    mainmenu.setBackground("../images/wald.jpg");
+    mainmenu.setBackground("../images/wald.png");
     sf::Font font;
     sf::Text text;
     font.loadFromFile("../fonts/Arial.ttf");

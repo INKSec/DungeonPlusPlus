@@ -24,12 +24,12 @@ namespace sfm {
         void setText(const std::string &text) { this->text = text; }
         const std::string &getText() const { return text; }
         void setCallback(std::function<void(void)> callback) {
-            this->callback = callback;
+            this->callback = std::move(callback);
         }
     private:
         std::string text;
         std::function<void(void)> callback;
-    };//end MenuOption
+    };
 
     class MenuLayout {
         friend class Menu;
@@ -43,10 +43,9 @@ namespace sfm {
     private:
         void apply(std::vector<sf::Text> &options, const sf::Vector2u &windowSize) const;
         unsigned int spacing{}; //spacing between each option
-        //where on the screen (percentage wise) the MenuOptions revolve
-        //around
+
         sf::Vector2f origin;
-    };//end MenuLayout
+    };
 
     class Menu {
     public:
@@ -59,7 +58,7 @@ namespace sfm {
         void setLayout(const MenuLayout &_style);
         void setTemplateText(const sf::Text &t);
         void setFinished(const bool &_finished);
-        static void buildMenu(sf::RenderWindow&, int, int, int, std::string, sfm::Menu);
+        static void buildMenu(sf::RenderWindow&, int, int, int, const std::string&, sfm::Menu);
     private:
         std::vector<MenuOption> options;
         sf::Texture background;

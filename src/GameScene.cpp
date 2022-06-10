@@ -156,28 +156,35 @@ void gui::GameScene::combatView() {
                          [this](){
         player->attack(getEnemy());
 
+        // Player attacks after pressing attack button
         display(dungeonLayout.getCurrentRoom());
+
+        // delay player after reaching attack position
         std::this_thread::sleep_for (std::chrono::milliseconds (200));
         getEnemy()->setPosX(getEnemy()->getPosXDamaged());
         player->setPosX(player->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
-        std::this_thread::sleep_for (std::chrono::milliseconds (400));
+
+        // Delay after enemy reaching damage position
+        std::this_thread::sleep_for (std::chrono::milliseconds (200));
         getEnemy()->setPosX(getEnemy()->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
-        std::this_thread::sleep_for (std::chrono::milliseconds (800));
-        //std::this_thread::sleep_for (std::chrono::seconds(1));
-        getEnemy()->attack(player);
 
+        // delay before enemy attacks
+        std::this_thread::sleep_for (std::chrono::milliseconds (1000));
+        getEnemy()->attack(player);
         display(dungeonLayout.getCurrentRoom());
+
+        // delay while enemy is in attack position, player in idle
         std::this_thread::sleep_for (std::chrono::milliseconds (200));
         player->setPosX(player->getPosXDamaged());
         getEnemy()->setPosX(getEnemy()->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
-        std::this_thread::sleep_for (std::chrono::milliseconds (200));
+
+        // delay while player is in damage position
+        std::this_thread::sleep_for (std::chrono::milliseconds (300));
         player->setPosX(player->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
-
-
     });
 
 
