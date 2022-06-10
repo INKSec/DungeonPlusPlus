@@ -25,6 +25,7 @@ namespace gui {
         std::vector<std::shared_ptr<game::Item>> items;
         std::vector<Button> itemButtons;
         std::vector<sf::Text> itemTexts;
+        static std::string buildItemSubText(const std::shared_ptr<game::Item> &item) ;
     };
 }
 
