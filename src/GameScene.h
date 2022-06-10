@@ -23,7 +23,7 @@ namespace gui {
         void setHUD(const std::string &path);
         std::vector<Button> getButtons() const;
         std::shared_ptr<game::Enemy> getEnemy() const;
-        void setEnemy(const std::shared_ptr<game::Enemy> );
+        void setEnemy(const std::shared_ptr<game::Enemy>& );
 
     private:
         void explorationView();

@@ -313,7 +313,7 @@ void gui::GameScene::drawAttackCall() {
             text.setString("Habe ich den Herd ausgemacht?");
             break;
         default:
-            // to avoid Clang Tidy
+
             break;
 
     };
@@ -333,7 +333,7 @@ std::shared_ptr<game::Enemy> gui::GameScene::getEnemy() const {
     return enemy;
 }
 
-void gui::GameScene::setEnemy(const std::shared_ptr<game::Enemy> _enemy) {
+void gui::GameScene::setEnemy(const std::shared_ptr<game::Enemy>& _enemy) {
     enemy = _enemy;
 }
 
