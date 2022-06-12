@@ -302,7 +302,7 @@ void gui::GameScene::drawAttackCall() {
             text.setString("Eigentlich bin ich ja Pazifist");
             break;
         case 8:
-            bar.setSize(sf::Vector2f{300, 40});
+            bar.setSize(sf::Vector2f{350, 40});
             text.setString("Wieder keine Prinzessin...");
             break;
         case 9:

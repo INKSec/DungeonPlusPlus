@@ -29,7 +29,7 @@ void Optionen::Options::draw() {
         Datei.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         Datei.open("../ConfigIni.txt");
         while (!Datei.eof()) {
-            for(size_t i = 0; i<4; i++) {
+            for (size_t i = 0; i < 4; i++) {
                 Datei >> tempS;
                 texts.push_back(tempS);
             }
@@ -37,25 +37,35 @@ void Optionen::Options::draw() {
 
         Datei.close();
     }
-    catch (std::exception& e) {
+    catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
 
-    buttons.emplace_back(texts[0] + " x "+ texts[1], window.getSize().x - 700, window.getSize().y - 500, 200, 50, font,
-                         10, sf::Color::White, sf::Color::Black, [this]() {
-        // Funktionalitaet klappt noch nicht
-    });
+
+    buttons.emplace_back(texts[0] + " x " + texts[1], window.getSize().x - 700, window.getSize().y - 500, 200, 50, font,
+                         10, sf::Color::White, sf::Color::Black, []() {
+
+                std::cout << "Buttontest" << std::endl;
+            });
     buttons.emplace_back(texts[2] + " x " + texts[3], window.getSize().x - 700, window.getSize().y - 400, 200, 50, font,
-                         10, sf::Color::White, sf::Color::Black, [this]() {
+                         10, sf::Color::White, sf::Color::Black, []() {
+                std::cout << "Buttontest2" << std::endl;
             });
     buttons.emplace_back("back", window.getSize().x - 700, window.getSize().y - 300, 200, 50, font,
-                         10, sf::Color::White, sf::Color::Black, [this]() {
-
+                         10, sf::Color::White, sf::Color::Black, []() {
+                std::cout << "Buttontest3" << std::endl;
             });
-    for(auto &b : buttons) {
+    for (auto &b: buttons) {
         b.render(window);
     }
-    window.display();
+
+
+
+        window.display();
+    }
+
+std::vector<gui::Button> Optionen::Options::getButtons() const {
+    return buttons;
 }
 
 

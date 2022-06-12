@@ -90,7 +90,7 @@ void Menu::display(sf::RenderWindow &window) {
     sf::Sprite backg;
     backg.setTexture(background);
     backg.setScale(static_cast<float>(window.getSize().x) / (float)background.getSize().x,
-                static_cast<float>(window.getSize().y) / (float)background.getSize().y);
+                   static_cast<float>(window.getSize().y) / (float)background.getSize().y);
     std::vector<sf::Text> texts;
     sf::Text text = this->templateText;
     for(const auto &o : options) {
@@ -197,30 +197,33 @@ void splashScreenCallback() {
 
 void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
 
-
-    auto player {std::make_shared<game::Player>()};
+    bool options = true;
+    auto player{std::make_shared<game::Player>()};
     game::DungeonLayout dungeonLayout;
-    game::DungeonLayout::roomMap rooms {dungeonLayout.generateDungeon(ROOM_COUNT)};
+    game::DungeonLayout::roomMap rooms{dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
     gui::Inventory inventory{window, player};
     gui::GameScene gamescene{window, player, inventory, dungeonLayout, dungeonMap};
     Optionen::Options optionsScreen(window);
 
-    bool finished {false};
+    bool finished{false};
     sfm::Menu mainmenu;
 
-    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout](){
+    sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout, &options]() {
         mainmenu.setFinished(true);
+        options = false;
         gamescene.display(dungeonLayout.getCurrentRoom());
     });
     mainmenu.addOption(opt);
-    //sfm::MenuOption opt2("Optionen", menuButton2);
-    sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen](){
+
+    sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options]() {
         mainmenu.setFinished("true");
+        options = true;
         optionsScreen.draw();
     });
     mainmenu.addOption(opt2);
-    sfm::MenuOption opt3("Beenden", [&mainmenu, &finished](){mainmenu.setFinished(true), finished = true;});
+
+    sfm::MenuOption opt3("Beenden", [&mainmenu, &finished]() { mainmenu.setFinished(true), finished = true; });
     mainmenu.addOption(opt3);
     mainmenu.setLayout(sfm::MenuLayout::VerticleCentered);
     mainmenu.setBackground("../images/wald.png");
@@ -236,30 +239,43 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     mainmenu.display(window);
 
     sf::Clock clock;
-    while(!finished) {
+    while (!finished) {
         sf::Event e{};
-        while(window.pollEvent(e)) {
-            switch(e.type) {
+        while (window.pollEvent(e)) {
+            switch (e.type) {
                 case sf::Event::Closed:
                     finished = true;
                     break;
                 case sf::Event::MouseButtonReleased:
-                    for(gui::Button &b : gamescene.getButtons()) {
-                        if(b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
-                            b.clicked();
-                            break;
+                    if(options) {
+                        for (gui::Button &b: optionsScreen.getButtons()) {
+                            if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                                b.clicked();
+                                break;
+                            }
+                        }
+                    }   else {
+                            for (gui::Button &b: gamescene.getButtons()) {
+                                if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                                    b.clicked();
+                                    break;
+
+                        }
+
                         }
                     }
-                    break;
-                case sf::Event::KeyPressed:
-                    if(e.key.code == sf::Keyboard::Escape) {
-                        finished = true;
+
+
+                        break;
+                        case sf::Event::KeyPressed:
+                            if (e.key.code == sf::Keyboard::Escape) {
+                                finished = true;
+                            }
+                        break;
+                        default:
+                            break;
                     }
-                    break;
-                default:
-                    break;
             }
+            sf::sleep(sf::milliseconds(50));
         }
-        sf::sleep(sf::milliseconds(50));
     }
-}

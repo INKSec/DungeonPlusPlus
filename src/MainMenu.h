@@ -23,9 +23,7 @@ namespace sfm {
         void select();
         void setText(const std::string &_text);
         const std::string &getText() const;
-        void setCallback(std::function<void(void)> callback) {
-            this->callback = std::move(callback);
-        }
+
     private:
         std::string text;
         std::function<void(void)> callback;
@@ -68,6 +66,6 @@ namespace sfm {
         MenuLayout layout;
         sf::Text templateText;
         bool finished = false;
-    };//end Menu
+    };
 
-}//end namespace
+}

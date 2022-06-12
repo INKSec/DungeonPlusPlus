@@ -15,6 +15,7 @@ namespace Optionen {
         explicit Options(sf::RenderWindow &_window);
         ~Options() = default;
         void draw();
+        std::vector<gui::Button> getButtons() const;
 
     private:
         sf::RenderWindow &window;
