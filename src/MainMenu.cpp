@@ -20,13 +20,7 @@ const std::string &MenuOption::getText() const {
     return text;
 }
 
-
-
-
-
-const MenuLayout MenuLayout::VerticleCentered	=	MenuLayout(50, sf::Vector2f(0.50, 0.5));
-const MenuLayout MenuLayout::VerticleLeft		=	MenuLayout(50, sf::Vector2f(0.25, 0.5));
-
+const MenuLayout MenuLayout::VerticleCentered = MenuLayout(50, sf::Vector2f(0.50, 0.5));
 
 //MenuLayout Methods
 MenuLayout::MenuLayout(unsigned int spacing, const sf::Vector2f &origin) {
@@ -190,15 +184,16 @@ void Menu::setFinished(const bool &_finished) {
 }
 
 
-void splashScreenCallback() {
-
-};
+void splashScreenCallback() {};
 
 
 void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
 
+
     bool options = true;
     auto player{std::make_shared<game::Player>()};
+
+
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms{dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
@@ -278,4 +273,10 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
             }
             sf::sleep(sf::milliseconds(50));
         }
+
+        if(!window.isOpen()) {
+            finished = true;
+        }
+        sf::sleep(sf::milliseconds(50));
+
     }
