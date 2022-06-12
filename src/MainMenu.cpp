@@ -183,6 +183,15 @@ void Menu::setFinished(const bool &_finished) {
     finished = _finished;
 }
 
+void Menu::setFinished(const std::string &_finished) {
+    if(_finished == "true"){
+        finished = true;
+    } else if (_finished == "false") {
+        finished = false;
+    }
+}
+
+
 
 void splashScreenCallback() {};
 
@@ -202,13 +211,15 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     sfm::Menu mainmenu;
 
     sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout, &options]() {
-        mainmenu.setFinished(true);
+        // Funktionsüberladung (String)
+        mainmenu.setFinished("true");
         options = false;
         gamescene.display(dungeonLayout.getCurrentRoom());
     });
     mainmenu.addOption(opt);
 
     sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options]() {
+        // Funktionsüberladung (Bool)
         mainmenu.setFinished(true);
         options = true;
         optionsScreen.draw();

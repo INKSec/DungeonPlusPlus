@@ -208,8 +208,9 @@ void gui::GameScene::combatView() {
 
         } else {
             // When an Enemy is killed, open an EventWindow offering a random Weapon
-            int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
-            auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
+            //int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
+            //auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
+            auto weapon {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Dagger)};
             event = std::make_shared<gui::EventWindow>(
                 window,
                 "You found a " + weapon->getName() + " (ATK: " + std::to_string(weapon->getDamageOutput()) + ", ACC: " + std::to_string(weapon->getAccuracy()) + ")",

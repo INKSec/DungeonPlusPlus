@@ -51,12 +51,22 @@ void gui::Inventory::draw(GameScene &gameScene) {
                     BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE,
                     BUTTON_COLOR, BUTTON_TEXT_COLOR,
                     [this, &i, &gameScene](){
-                        if(i->itemType == game::Item::ItemType::Weapon) {
-                            player->equipWeapon(std::dynamic_pointer_cast<game::Weapon>(i));
-                            std::cout << "Equipped Weapon." << std::endl;
+                        // If wielding dagger and using another dagger, combine them
+                        if (i->getName() == "Dagger" && player->getEquippedWeapon()->getName() == "Dagger") {
+                            std::cout << "Dual wielding Daggers." << std::endl;
+                            game::Weapon w1 = *std::dynamic_pointer_cast<game::Weapon>(i);
+                            game::Weapon w2 = *player->getEquippedWeapon();
+                            auto dualWield = std::make_shared<game::Weapon>(w1 + w2);
+                            items.erase(std::remove(items.begin(), items.end(), i), items.end());
+                            items.erase(std::remove(items.begin(), items.end(), player->getEquippedWeapon()), items.end());
+                            putItem(dualWield);
+                            player->equipWeapon(dualWield);
                         } else if (i->itemType == game::Item::ItemType::Consumable) {
                             std::cout << "Consumed Item." << std::endl;
                             items.erase(std::remove(items.begin(), items.end(), i), items.end());
+                        } else if(i->itemType == game::Item::ItemType::Weapon) {
+                            player->equipWeapon(std::dynamic_pointer_cast<game::Weapon>(i));
+                            std::cout << "Equipped Weapon." << std::endl;
                         }
                         gameScene.display(gameScene.getDungeonLayout().getCurrentRoom());
                     });

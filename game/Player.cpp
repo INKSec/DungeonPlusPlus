@@ -22,5 +22,3 @@ void game::Player::equipWeapon(const std::shared_ptr<Weapon> &_weapon) {
 std::shared_ptr<game::Weapon> game::Player::getEquippedWeapon() const {
     return weapon;
 }
-
-
