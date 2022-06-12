@@ -7,7 +7,8 @@
 
 game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roomCount) {
     std::vector<roomPtr> rooms;
-    RoomFactory::roomType type;
+    RoomFactory::roomType rType;
+    EnemyFactory::enemyType eType;
     rooms.reserve(roomCount);
     // Always generate the Entrance-Room first
     rooms.emplace_back(RoomFactory::generateRoom(RoomFactory::roomType::Entrance));
@@ -15,12 +16,17 @@ game::DungeonLayout::roomMap game::DungeonLayout::generateDungeon(const int &roo
     // Randomly generate Rooms of different Types (other than Entrance)
     srand(time(nullptr));
     for(int i = 1; i < roomCount; i++) {
-        type = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
-        rooms.emplace_back(RoomFactory::generateRoom(type));
-        if(type == RoomFactory::roomType::Corridor) {
-            rooms[i]->setEnemy(EnemyFactory::generateEnemy(EnemyFactory::enemyType::Spider));
+        rType = static_cast<RoomFactory::roomType>(rand() % static_cast<int>(RoomFactory::roomType::Entrance));
+        rooms.emplace_back(RoomFactory::generateRoom(rType));
+        if(rand() % 2) {
+            eType = static_cast<EnemyFactory::enemyType>(rand() % static_cast<int>(EnemyFactory::enemyType::Boss));
+            rooms[i]->setEnemy(EnemyFactory::generateEnemy(eType));
         }
     }
+
+    // Generate the Bossroom
+    rooms.emplace_back(RoomFactory::generateRoom(RoomFactory::roomType::Bossroom));
+    rooms.back()->setEnemy(EnemyFactory::generateEnemy(EnemyFactory::enemyType::Boss));
 
     // Place the rooms in the map with a randomly selected Position that connects to at least 1 other Room
     for(const roomPtr &r : rooms) {

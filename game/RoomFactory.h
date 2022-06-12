@@ -9,7 +9,7 @@ namespace game {
     class RoomFactory {
     public:
         // Entrance represents the end of the Enum and must remain at the end of the list
-        enum class roomType {Corridor, Cell, Entrance};
+        enum class roomType {Corridor, Cell, Entrance, Bossroom};
         static std::shared_ptr<Room> generateRoom(const roomType &type);
     };
 

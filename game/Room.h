@@ -13,6 +13,7 @@ namespace game {
         std::string getName() const;
         std::shared_ptr<Enemy> getEnemy() const;
         void setEnemy(std::shared_ptr<Enemy> _enemy);
+        bool visited {false};
     private:
         const std::string background;
         const std::string name;

@@ -189,11 +189,7 @@ void splashScreenCallback() {};
 
 void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
 
-
-    bool options = true;
     auto player{std::make_shared<game::Player>()};
-
-
     game::DungeonLayout dungeonLayout;
     game::DungeonLayout::roomMap rooms{dungeonLayout.generateDungeon(ROOM_COUNT)};
     gui::DungeonMap dungeonMap{window, rooms};
@@ -202,6 +198,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     Optionen::Options optionsScreen(window);
 
     bool finished{false};
+    bool options {false};
     sfm::Menu mainmenu;
 
     sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout, &options]() {
@@ -212,7 +209,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     mainmenu.addOption(opt);
 
     sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options]() {
-        mainmenu.setFinished("true");
+        mainmenu.setFinished(true);
         options = true;
         optionsScreen.draw();
     });
@@ -249,34 +246,27 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
                                 break;
                             }
                         }
-                    }   else {
-                            for (gui::Button &b: gamescene.getButtons()) {
-                                if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
-                                    b.clicked();
-                                    break;
-
-                        }
-
-                        }
-                    }
-
-
-                        break;
-                        case sf::Event::KeyPressed:
-                            if (e.key.code == sf::Keyboard::Escape) {
-                                finished = true;
+                    } else {
+                        for (gui::Button &b: gamescene.getButtons()) {
+                            if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                                b.clicked();
+                                break;
                             }
-                        break;
-                        default:
-                            break;
+                        }
                     }
+                    break;
+                case sf::Event::KeyPressed:
+                    if (e.key.code == sf::Keyboard::Escape) {
+                        finished = true;
+                    }
+                    break;
+                default:
+                    break;
             }
-            sf::sleep(sf::milliseconds(50));
         }
-
         if(!window.isOpen()) {
             finished = true;
         }
         sf::sleep(sf::milliseconds(50));
-
     }
+}

@@ -44,6 +44,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     bg.setTexture(background);
     bg.setScale(static_cast<float>(window.getSize().x) / static_cast<float>(background.getSize().x),
                 (static_cast<float>(window.getSize().y) - _hud.getGlobalBounds().height) / static_cast<float>(background.getSize().y));
+    dungeonLayout.getCurrentRoom()->visited = true;
     window.clear();
     window.draw(bg);
     window.draw(_hud);
@@ -250,7 +251,7 @@ void gui::GameScene::drawEnemy() {
     texture.loadFromFile(dungeonLayout.getCurrentRoom()->getEnemy()->getSprite());
     sprite.setTexture(texture);
     sprite.setPosition(window.getSize().x * dungeonLayout.getCurrentRoom()->getEnemy()->getPosX(),
-                       window.getSize().y * 0.45f);
+                       window.getSize().y - sprite.getGlobalBounds().height - 240);
     window.draw(sprite);
 }
 

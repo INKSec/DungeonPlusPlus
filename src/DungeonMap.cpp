@@ -26,7 +26,7 @@ void gui::DungeonMap::draw(const int &currentPosition) {
     mapCenterY = bg.getPosition().y + (bg.getGlobalBounds().height / 2);
     for(auto &r : dungeonMap) {
         Button roomButton{
-            r.second->getName(),
+            (r.second->visited ? r.second->getName() : ""),
             calcPosition<Axis::xAxis>(r.first) - BUTTON_WIDTH / 2,
             calcPosition<Axis::yAxis>(r.first) - BUTTON_HEIGHT / 2,
             BUTTON_WIDTH, BUTTON_HEIGHT, font, BUTTON_FONT_SIZE,

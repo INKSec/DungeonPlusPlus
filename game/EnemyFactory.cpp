@@ -7,8 +7,11 @@ std::shared_ptr<game::Enemy> game::EnemyFactory::generateEnemy(const game::Enemy
         case enemyType::Spider:
             enemy = std::make_shared<Spider>();
             break;
+        case enemyType::Skeleton:
+            enemy = std::make_shared<Skeleton>();
+            break;
         case enemyType::Boss:
-            //enemy = std::make_shared<Boss>();
+            enemy = std::make_shared<Boss>();
             break;
     }
 
