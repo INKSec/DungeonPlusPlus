@@ -3,18 +3,13 @@
 #define BUTTON_WIDTH 40
 #define BUTTON_HEIGHT 40
 #define BUTTON_COLOR sf::Color::White
-#define EQUIPPED_COLOR sf::Color::Green
 #define BUTTON_TEXT_COLOR sf::Color::Black
 #define BUTTON_FONT_SIZE 14
 #define INVENTORY_CAPACITY 8
 
 gui::Inventory::Inventory(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player) : window{_window}, player{_player} {
     auto startingWeapon {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Dagger)};
-    auto w1 {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Sword)};
-    auto w2 {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Warhammer)};
     putItem(startingWeapon);
-    putItem(w1);
-    putItem(w2);
     player->equipWeapon(startingWeapon);
 }
 

@@ -25,7 +25,8 @@ gui::GameScene::GameScene(
     inventory{_inventory},
     dungeonLayout(_dungeonLayout),
     dungeonMap{_dungeonMap},
-    enemy{nullptr}
+    enemy{nullptr},
+    event{nullptr}
 {
     font.loadFromFile("../fonts/Arial.ttf");
     setHUD("../images/hud.jpg");
@@ -59,6 +60,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
 
     if(mapIsOpen) dungeonMap.draw(dungeonLayout.getCurrentPosition());
     if(inventoryIsOpen) inventory.draw(*this);
+    if(eventIsOpen) event->draw();
 
     window.display();
 }
@@ -160,7 +162,7 @@ void gui::GameScene::combatView() {
         player->setPosX(player->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
 
-        // Delay after enemy reaching damage position
+        // delay after enemy reaching damage position
         std::this_thread::sleep_for (std::chrono::milliseconds (200));
         getEnemy()->setPosX(getEnemy()->getPosXIdle());
         display(dungeonLayout.getCurrentRoom());
@@ -185,7 +187,23 @@ void gui::GameScene::combatView() {
         } else {
             int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
             auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
-            inventory.putItem(weapon);
+            event = std::make_shared<gui::EventWindow>(
+                window,
+                "You found a " + weapon->getName() + " (ATK: " + std::to_string(weapon->getDamageOutput()) + ", ACC: " + std::to_string(weapon->getAccuracy()) + ")",
+                "Take the " + weapon->getName(),
+                [this, weapon](){
+                    inventory.putItem(weapon);
+                    eventIsOpen = false;
+                    display(dungeonLayout.getCurrentRoom());
+                },
+                "Leave it",
+                [this](){
+                    eventIsOpen = false;
+                    display(dungeonLayout.getCurrentRoom());
+                }
+            );
+            eventIsOpen = true;
+            display(dungeonLayout.getCurrentRoom());
         }
     });
 
@@ -321,15 +339,17 @@ void gui::GameScene::setEnemy(const std::shared_ptr<game::Enemy>& _enemy) {
 }
 
 std::vector<gui::Button> gui::GameScene::getButtons() const {
+    std::vector<Button> allButtons {buttons};
     if(inventoryIsOpen) {
-        std::vector<Button> allButtons {buttons};
         for(auto const &b : inventory.getButtons()) {
             allButtons.push_back(b);
         }
-        return allButtons;
-    } else {
-        return buttons;
+    } else if (eventIsOpen) {
+        for(auto const &b : event->getButtons()) {
+            allButtons.push_back(b);
+        }
     }
+    return allButtons;
 }
 
 std::shared_ptr<game::Enemy> gui::GameScene::getEnemy() const {

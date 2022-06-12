@@ -3,7 +3,7 @@ project(DungeonPlusPlus)
 
 set(CMAKE_CXX_STANDARD 14)
 add_subdirectory(game src)
-add_executable(DungeonPlusPlus src/main.cpp src/MainMenu.cpp src/GameScene.cpp src/Button.cpp src/DungeonMap.cpp src/Inventory.cpp src/Options.cpp src/Options.h)
+add_executable(DungeonPlusPlus src/main.cpp src/MainMenu.cpp src/GameScene.cpp src/Button.cpp src/DungeonMap.cpp src/Inventory.cpp src/Options.cpp src/Options.h src/EventWindow.cpp)
 include_directories(headers /usr/include D:/SFML/include)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")

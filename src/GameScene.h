@@ -12,10 +12,12 @@
 #include "Weapon.h"
 #include "ItemFactory.h"
 #include "Inventory.h"
+#include "EventWindow.h"
 
 namespace gui {
 
     class Inventory;
+    class EventWindow;
 
     class GameScene {
     public:
@@ -37,6 +39,7 @@ namespace gui {
         void drawAttackCall();
         std::shared_ptr<game::Player> &player;
         std::shared_ptr<game::Enemy> enemy;
+        std::shared_ptr<gui::EventWindow> event;
         game::DungeonLayout &dungeonLayout;
         gui::DungeonMap &dungeonMap;
         gui::Inventory &inventory;
@@ -47,6 +50,7 @@ namespace gui {
         sf::RenderWindow &window;
         bool mapIsOpen {false};
         bool inventoryIsOpen {false};
+        bool eventIsOpen {false};
     };
 
 }
