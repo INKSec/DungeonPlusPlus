@@ -54,7 +54,7 @@ void gui::GameScene::display(const std::shared_ptr<game::Room> &currentRoom) {
     if(currentRoom->getEnemy() != nullptr && currentRoom->getEnemy()->getCurrentHealth() > 0) {
         setEnemy(currentRoom->getEnemy());
         combatView();
-    } else {
+    } else if(!eventIsOpen) {
         explorationView();
     }
 
@@ -180,11 +180,33 @@ void gui::GameScene::combatView() {
             getEnemy()->setPosX(getEnemy()->getPosXIdle());
             display(dungeonLayout.getCurrentRoom());
 
-            // delay while player is in damage position
-            std::this_thread::sleep_for (std::chrono::milliseconds (300));
-            player->setPosX(player->getPosXIdle());
-            display(dungeonLayout.getCurrentRoom());
+            if(player->getCurrentHealth() > 0) {
+                // delay while player is in damage position
+                std::this_thread::sleep_for (std::chrono::milliseconds (300));
+                player->setPosX(player->getPosXIdle());
+                display(dungeonLayout.getCurrentRoom());
+            } else {
+                // If the Player is killed, display a deathscreen
+                event = std::make_shared<gui::EventWindow>(
+                        window,
+                        "You died!",
+                        "Back to Menu",
+                        [this](){
+                            eventIsOpen = false;
+                            window.close();
+                        },
+                        "Quit Game",
+                        [this](){
+                            eventIsOpen = false;
+                            window.close();
+                        }
+                );
+                eventIsOpen = true;
+                display(dungeonLayout.getCurrentRoom());
+            }
+
         } else {
+            // When an Enemy is killed, open an EventWindow offering a random Weapon
             int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
             auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
             event = std::make_shared<gui::EventWindow>(
