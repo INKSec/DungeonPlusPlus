@@ -196,7 +196,8 @@ void Menu::setFinished(const std::string &_finished) {
 void splashScreenCallback() {};
 
 
-void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIGHT, int ROOM_COUNT, const std::string& GAME_TITLE, sfm::Menu splash) {
+void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HEIGHT, int ROOM_COUNT,
+                     const std::string& GAME_TITLE, sfm::Menu splash) {
 
     auto player{std::make_shared<game::Player>()};
     game::DungeonLayout dungeonLayout;
@@ -218,11 +219,11 @@ void Menu::buildMenu(sf::RenderWindow& window, int WINDOW_WIDTH, int WINDOW_HEIG
     });
     mainmenu.addOption(opt);
 
-    sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options]() {
+    sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options, &WINDOW_WIDTH, &WINDOW_HEIGHT]() {
         // Funktionsüberladung (Bool)
         mainmenu.setFinished(true);
         options = true;
-        optionsScreen.draw();
+        optionsScreen.draw(WINDOW_WIDTH, WINDOW_HEIGHT);
     });
     mainmenu.addOption(opt2);
 

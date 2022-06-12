@@ -7,6 +7,7 @@
 #include <iostream>
 #include <SFML\Graphics.hpp>
 #include "Button.h"
+#include "MainMenu.h"
 
 namespace Optionen {
     class Options {
@@ -14,7 +15,7 @@ namespace Optionen {
         Options() = delete;
         explicit Options(sf::RenderWindow &_window);
         ~Options() = default;
-        void draw();
+        void draw(int&, int&);
         std::vector<gui::Button> getButtons() const;
 
     private:

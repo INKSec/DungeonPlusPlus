@@ -3,8 +3,8 @@
 #include "GameScene.h"
 
 #define GAME_TITLE "DungeonPlusPlus"
-#define WINDOW_WIDTH 1300
-#define WINDOW_HEIGHT 800
+//#define WINDOW_WIDTH 1300
+//#define WINDOW_HEIGHT 800
 #define ROOM_COUNT 20
 
 using namespace std;
@@ -14,7 +14,8 @@ void splashScreenCallback();
 
 
 int main() {
-
+    int WINDOW_WIDTH{1300};
+    int WINDOW_HEIGHT{800};
     //create the splash screen
     sf::RenderWindow window;
     sfm::Menu splash;

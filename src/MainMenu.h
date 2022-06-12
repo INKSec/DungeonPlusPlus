@@ -57,7 +57,7 @@ namespace sfm {
         void setTemplateText(const sf::Text &t);
         void setFinished(const bool &_finished);
         void setFinished(const std::string &_finished);
-        static void buildMenu(sf::RenderWindow&, int, int, int, const std::string&, sfm::Menu);
+        static void buildMenu(sf::RenderWindow&, int&, int&, int, const std::string&, sfm::Menu);
     private:
         std::vector<MenuOption> options;
         sf::Texture background;
