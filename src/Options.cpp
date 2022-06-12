@@ -19,6 +19,7 @@ Optionen::Options::Options(sf::RenderWindow &_window) : window(_window) {
 
 
 }
+
 // IO Stream
 void Optionen::Options::draw(int &width, int &height) {
     window.draw(backgroundImage);
@@ -35,17 +36,25 @@ void Optionen::Options::draw(int &width, int &height) {
                 texts.push_back(tempS);
             }
         }
-
         Datei.close();
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
 
-
     buttons.emplace_back(texts[0] + " x " + texts[1], window.getSize().x - 700, window.getSize().y - 500, 200, 50, font,
                          10, sf::Color::White, sf::Color::Black, [&width, &height]() {
-
+                std::ofstream Datei;
+                std::string temp = "Test";
+                try {
+                    Datei.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+                    Datei.open("../ButtonAusgabe.txt");
+                    Datei << temp;
+                    Datei.close();
+                }
+                catch (std::exception &e) {
+                    std::cerr << e.what() << std::endl;
+                }
                 std::cout << "Buttontest" << std::endl;
                 width =1000;
                 height=800;
