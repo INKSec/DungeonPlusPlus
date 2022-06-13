@@ -1,0 +1,46 @@
+Objektorientierte Analyse? David
+
+Anforderung 6 - Micha
+Funktionsueberladung einbauen
+setFinished MainMenu Zeile 213
+
+
+Anfordeung 7 - Alex
+Nutzung von Operatorüberladung.
+Inventory.cpp Zeile 58
+Waepon + operator
+
+Anforderung 8 - Micha
+Datei und Konsolen IO. 
+Options.cpp Zeile 30
+
+Anforderung 9 - Micha
+Verwendung von C++ Smart Pointern (unique_ptr, shared_ptr) bei dynamisch erzeugten Objekten.
+Room Factory - DungeonLayout + Map verwendung
+
+Anforderung 10 - Alex
+Verwendung von weiteren Standard Containern zusätzlich zu std::vector und std::array
+DungeonLayout Map und Set
+
+Anforderung 12 - Alex
+Nutzung von Laufzeitpolymorphismus.
+Attack Funktion in Entity
+Gamescene - Zeile 155
+
+Anforderung 13 - Micha
+Nutzung von move-Semantik.
+MainMenu.cpp Constructor Zeile 8
+EventWindow Constructor
+
+
+Anforderung 15 - Alex
+Erstellung von eigenen Template-Klassen und/oder  -Funktionen.
+DungeonMap.cpp Zeile 42
+
+Anforderung 16 - Micha
+Debugging David fragen
+
+Anforderung 17 - Micha
+Profiling ihrer Anwendung mittels Profiler.
+
+
