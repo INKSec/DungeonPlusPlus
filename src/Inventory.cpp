@@ -10,6 +10,8 @@
 gui::Inventory::Inventory(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player) : window{_window}, player{_player} {
     auto startingWeapon {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Dagger)};
     putItem(startingWeapon);
+    auto startingWeapon2 {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Dagger)};
+    putItem(startingWeapon2);
     player->equipWeapon(startingWeapon);
 }
 

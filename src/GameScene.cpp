@@ -208,9 +208,8 @@ void gui::GameScene::combatView() {
 
         } else {
             // When an Enemy is killed, open an EventWindow offering a random Weapon
-            //int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
-            //auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
-            auto weapon {game::ItemFactory::generateWeapon(game::ItemFactory::weaponType::Dagger)};
+            int random = rand() % static_cast<int>(game::ItemFactory::weaponType::Dagger);
+            auto weapon {game::ItemFactory::generateWeapon(static_cast<game::ItemFactory::weaponType>(random))};
             event = std::make_shared<gui::EventWindow>(
                 window,
                 "You found a " + weapon->getName() + " (ATK: " + std::to_string(weapon->getDamageOutput()) + ", ACC: " + std::to_string(weapon->getAccuracy()) + ")",
@@ -298,7 +297,7 @@ void gui::GameScene::drawAttackCall() {
             text.setString("Ich greife an!!");
             break;
         case 1:
-            bar.setSize(sf::Vector2f{350, 40});
+            bar.setSize(sf::Vector2f{400, 40});
             text.setString("Ich habe ein bisschen Angst...");
             break;
         case 2:
