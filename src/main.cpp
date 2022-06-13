@@ -1,3 +1,14 @@
+/*
+ * Labor 3 C++
+ * Alexander Neumann
+ * Michael Burkhardt
+ *
+ * Repo
+ * https://github.com/INKSec/DungeonPlusPlus
+ *
+ *
+ */
+
 #include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 #include "GameScene.h"
