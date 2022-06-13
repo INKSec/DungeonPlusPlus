@@ -1,4 +1,5 @@
 @startuml
+namespace game {
 abstract        Entity {
   # string name;
   # int maxHealth;
@@ -32,23 +33,36 @@ class           Room {
 }
 class 		EnemyFactory {
   + enum class EnemyType;
-  + static Enemy generateEnemy(EnemyType);
+  + {static} Enemy generateEnemy(EnemyType);
 }
 class 		ItemFactory {
   + enum class WeaponType;
   + enum class ConsumableType;
-  + static Item generateWeapon(WeaponType);
-  + static Item generateConsumable(ConsumableType);
+  + {static} Item generateWeapon(WeaponType);
+  + {static} Item generateConsumable(ConsumableType);
 }
 class 		RoomFactory {
   + enum class RoomType;
-  + static Room generateRoom(RoomType);
+  + {static} Room generateRoom(RoomType);
 }
 class           DungeonLayout {
   + map<int, room> generateDungeon();
   - void addPossiblePositions();
   - void getRandomNextPosition();
 }
+
+Entity <|-- Enemy
+Entity <|-- Player
+Enemy <|-- Spider
+Enemy <|-- Skeleton
+Item <|-- Weapon
+Item <|-- Consumable
+DungeonLayout "1" o-- "many" Room : contains
+Room "1" o-- "0-1" Enemy : contains
+Player "1" o-- "1" Weapon : has
+
+}
+namespace gui {
 class           DungeonMap {
   + void draw();
   - map<int, Room> roomMap;
@@ -67,24 +81,17 @@ class 		EventWindow {
 }
 class           GameScene {
   + void display();
+  - vector<Button> buttons;
 }
 class           Button {
   + void render();
   + void clicked();
 }
 
-Entity <|-- Enemy
-Entity <|-- Player
-Enemy <|-- Spider
-Enemy <|-- Skeleton
-Item <|-- Weapon
-Item <|-- Consumable
 GameScene "1" *-- "many" Button : contains
-GameScene "1" o-- "1" DungeonLayout
+GameScene "1" o-- "1" game.DungeonLayout
 GameScene "1" o-- "1" DungeonMap
-DungeonLayout "1" o-- "many" Room : contains
-DungeonMap "1" o-- "many" Room : contains
-Room "1" o-- "0-1" Enemy : contains
-Inventory "1" o-- "many" Item : contains
-Player "1" o-- "1" Weapon : has
+DungeonMap "1" o-- "many" game.Room : contains
+Inventory "1" o-- "many" game.Item : contains
+}
 @enduml
