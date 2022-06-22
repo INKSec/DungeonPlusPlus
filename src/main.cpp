@@ -5,6 +5,7 @@
  *
  * Repo
  * https://github.com/INKSec/DungeonPlusPlus
+ *This Project is using SFML
  *
  *
  */
@@ -25,6 +26,7 @@ void splashScreenCallback();
 
 
 int main() {
+    // Changed in Optionsmenu
     int WINDOW_WIDTH{1300};
     int WINDOW_HEIGHT{800};
     //create the splash screen

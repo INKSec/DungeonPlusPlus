@@ -49,7 +49,7 @@ namespace sfm {
     public:
         void display(sf::RenderWindow &window);
         void addOption(const MenuOption &option);
-        void clearOptions();
+
         void setBackground(const std::string &path);
         void setTimeout(sf::Time timeout, std::function<void(void)> callback);
         void setExitCallback(std::function<void(void)> callback);

@@ -21,7 +21,8 @@ namespace gui {
 
     class GameScene {
     public:
-        explicit GameScene(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player, gui::Inventory &_inventory, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
+        explicit GameScene(sf::RenderWindow &_window, std::shared_ptr<game::Player> &_player,
+                           gui::Inventory &_inventory, game::DungeonLayout &_dungeonLayout, gui::DungeonMap &_dungeonMap);
         void display(const std::shared_ptr<game::Room> &currentRoom);
         void setBackground(const std::string &path);
         void setHUD(const std::string &path);

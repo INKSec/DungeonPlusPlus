@@ -20,7 +20,7 @@ Optionen::Options::Options(sf::RenderWindow &_window) : window(_window) {
 
 }
 
-// IO Stream
+// IO Stream draws text in buttons
 void Optionen::Options::draw(int &width, int &height) {
     window.draw(backgroundImage);
     buttons.clear();
@@ -41,7 +41,8 @@ void Optionen::Options::draw(int &width, int &height) {
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
-
+    // just for the requirements writes a text when clicked
+    // when finished supposed to change window sizes
     buttons.emplace_back(texts[0] + " x " + texts[1], window.getSize().x - 700, window.getSize().y - 500, 200, 50, font,
                          10, sf::Color::White, sf::Color::Black, [&width, &height]() {
                 std::ofstream Datei;
@@ -59,11 +60,13 @@ void Optionen::Options::draw(int &width, int &height) {
                 width =1000;
                 height=800;
             });
+    // no function
     buttons.emplace_back(texts[2] + " x " + texts[3], window.getSize().x - 700, window.getSize().y - 400, 200, 50, font,
                          10, sf::Color::White, sf::Color::Black, []() {
                 std::cout << "Buttontest2" << std::endl;
 
             });
+    // no function
     buttons.emplace_back("back", window.getSize().x - 700, window.getSize().y - 300, 200, 50, font,
                          10, sf::Color::White, sf::Color::Black, [this]() {
                 std::cout << "Buttontest3" << std::endl;

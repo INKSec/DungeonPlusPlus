@@ -5,6 +5,7 @@
 using namespace sfm;
 
 // Menu Options
+// Constructor
 MenuOption::MenuOption(std::string text, std::function<void(void)> callback)
 :text(std::move(text)), callback(std::move(callback)) { }
 
@@ -101,7 +102,7 @@ void Menu::display(sf::RenderWindow &window) {
     window.display();
 
     int i;
-
+    // while for Main Menu checks if a Button is selected
     sf::Clock clock;
     while(!finished) {
         sf::Event e{};
@@ -115,7 +116,7 @@ void Menu::display(sf::RenderWindow &window) {
                 case sf::Event::GainedFocus:
                     window.clear();
                     window.draw(backg); //draw background
-                    for(auto &t : texts) {
+                    for(auto &t : texts) { // draw buttons
                         window.draw(t);
                     }
                     window.display();
@@ -149,9 +150,7 @@ void Menu::addOption(const MenuOption &option) {
 }
 
 
-void Menu::clearOptions() {
-    options.clear();
-}
+
 
 
 void Menu::setBackground(const std::string &path) {
@@ -179,10 +178,11 @@ void Menu::setTemplateText(const sf::Text &t) {
     templateText = t;
 }
 
+// for requirement function overload
 void Menu::setFinished(const bool &_finished) {
     finished = _finished;
 }
-
+// same as above
 void Menu::setFinished(const std::string &_finished) {
     if(_finished == "true"){
         finished = true;
@@ -195,7 +195,7 @@ void Menu::setFinished(const std::string &_finished) {
 
 void splashScreenCallback() {};
 
-
+// draws menu
 void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HEIGHT, int ROOM_COUNT,
                      const std::string& GAME_TITLE, sfm::Menu splash) {
 
@@ -206,13 +206,13 @@ void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HE
     gui::Inventory inventory{window, player};
     gui::GameScene gamescene{window, player, inventory, dungeonLayout, dungeonMap};
     Optionen::Options optionsScreen(window);
-
+    // menu closes when finished true
     bool finished{false};
     bool options {false};
     sfm::Menu mainmenu;
-
+    // sets state for clicked buttons
     sfm::MenuOption opt("Start", [&mainmenu, &gamescene, &dungeonLayout, &options]() {
-        // Funktionsüberladung (String)
+        // requirement function overload (String)
         mainmenu.setFinished("true");
         options = false;
         gamescene.display(dungeonLayout.getCurrentRoom());
@@ -220,12 +220,13 @@ void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HE
     mainmenu.addOption(opt);
 
     sfm::MenuOption opt2("Optionen", [&mainmenu, &optionsScreen, &options, &WINDOW_WIDTH, &WINDOW_HEIGHT]() {
-        // Funktionsüberladung (Bool)
+        // requirement function overload (Bool)
         mainmenu.setFinished(true);
         options = true;
         optionsScreen.draw(WINDOW_WIDTH, WINDOW_HEIGHT);
     });
     mainmenu.addOption(opt2);
+    // exit
 
     sfm::MenuOption opt3("Beenden", [&mainmenu, &finished]() { mainmenu.setFinished(true), finished = true; });
     mainmenu.addOption(opt3);
@@ -242,6 +243,8 @@ void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HE
     splash.display(window);
     mainmenu.display(window);
 
+    // while to get button functions
+
     sf::Clock clock;
     while (!finished) {
         sf::Event e{};
@@ -251,6 +254,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HE
                     finished = true;
                     break;
                 case sf::Event::MouseButtonReleased:
+                    // get buttons for option screen
                     if(options) {
                         for (gui::Button &b: optionsScreen.getButtons()) {
                             if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
@@ -258,6 +262,7 @@ void Menu::buildMenu(sf::RenderWindow& window, int &WINDOW_WIDTH, int &WINDOW_HE
                                 break;
                             }
                         }
+                        // get options for gamescene
                     } else {
                         for (gui::Button &b: gamescene.getButtons()) {
                             if (b.getShape().getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {

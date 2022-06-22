@@ -12,7 +12,8 @@ namespace gui {
 
     class EventWindow {
     public:
-        explicit EventWindow(sf::RenderWindow &_window, std::string _eventText, std::string _button1Text, std::function<void(void)> callback1, std::string _button2Text, std::function<void(void)> callback2);
+        explicit EventWindow(sf::RenderWindow &_window, std::string _eventText, std::string _button1Text,
+                             std::function<void(void)> callback1, std::string _button2Text, std::function<void(void)> callback2);
         void draw();
         std::vector<Button> getButtons() const;
     private:
