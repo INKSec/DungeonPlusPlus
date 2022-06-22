@@ -15,6 +15,7 @@ gui::Inventory::Inventory(sf::RenderWindow &_window, std::shared_ptr<game::Playe
     player->equipWeapon(startingWeapon);
 }
 
+// Draw the inventory
 void gui::Inventory::draw(GameScene &gameScene) {
     sf::Font font;
     font.loadFromFile("../fonts/Arial.ttf");
@@ -30,6 +31,7 @@ void gui::Inventory::draw(GameScene &gameScene) {
     itemButtons.clear();
     itemTexts.clear();
     sf::Text itemText;
+    // Generate descriptions and buttons for each item in the inventory
     for(const auto &i : items) {
         itemText.setString(i->getName());
         itemText.setFont(font);
@@ -45,6 +47,7 @@ void gui::Inventory::draw(GameScene &gameScene) {
         itemText.setFillColor(sf::Color::White);
         itemTexts.push_back(itemText);
 
+        // If an item is not currently equipped, generate its use and drop buttons
         if(player->getEquippedWeapon() != i) {
             itemButtons.emplace_back(
                     "Use",
@@ -94,6 +97,7 @@ void gui::Inventory::draw(GameScene &gameScene) {
     }
 }
 
+// Store an item in the inventory
 void gui::Inventory::putItem(const std::shared_ptr<game::Item> &_item) {
     if(items.size() < INVENTORY_CAPACITY) {
         items.emplace_back(_item);

@@ -1,6 +1,10 @@
 #include "Entity.h"
 #include <iostream>
 
+/*
+ * Attack another entity (player or enemy) by trying to pass an accuracy check
+ * and then subtracting this entity's attackPower from the opponent's currentHealth
+ */
 void game::Entity::attack(const game::Entity::entityPtr &opponent) {
     this->setPosX(getPosXAttack());
     const int random {rand()};

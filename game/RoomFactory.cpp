@@ -19,7 +19,6 @@ std::shared_ptr<game::Room> game::RoomFactory::generateRoom(const game::RoomFact
         case roomType::Bossroom:
             room = std::make_shared<Room>("../images/bossroom.png", "Boss");
             break;
-
     }
 
     return room;

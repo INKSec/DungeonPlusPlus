@@ -24,6 +24,7 @@ void gui::DungeonMap::draw(const int &currentPosition) {
     window.draw(bg);
     mapCenterX = bg.getPosition().x + (bg.getGlobalBounds().width / 2);
     mapCenterY = bg.getPosition().y + (bg.getGlobalBounds().height / 2);
+    // For each room in the dungeon, generate a tile on the map (containing the room's name if already visited)
     for(auto &r : dungeonMap) {
         Button roomButton{
             (r.second->visited ? r.second->getName() : ""),
